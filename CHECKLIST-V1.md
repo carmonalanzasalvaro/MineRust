@@ -11,14 +11,14 @@
 - [ ] Colocar Security Panel en suelo plano superflat
 - [ ] El Security Panel **permanece** colocado (no desaparece)
 - [ ] Se ve visualmente como un bloque (no invisible, no cubo rosa)
-- [ ] La pantalla apunta hacia el jugador que lo coloca, no siempre hacia la misma dirección
+- [x] La pantalla apunta hacia el jugador que lo coloca, no siempre hacia la misma dirección
 - [ ] Romper el Security Panel con pico devuelve el item
-- [ ] Mejorar la cobertura/rango del mismo Security Panel con el coste proporcional mostrado y verificar que también permanece
-- [ ] Tras mejorar la cobertura/rango, el botón/LED rojo del Security Panel cambia a verde
+- [x] Mejorar la cobertura/rango del mismo Security Panel con el coste proporcional mostrado y verificar que también permanece
+- [x] Tras mejorar la cobertura/rango, el botón/LED rojo del Security Panel cambia a verde
 
 ### 1.2 Overlap / Solapamiento
 - [ ] Colocar Security Panel en una ubicación libre → éxito
-- [ ] Intentar colocar OTRO Security Panel demasiado cerca para alcance máximo 30×30 → mensaje de separación y NO se coloca
+- [x] Intentar colocar OTRO Security Panel demasiado cerca para alcance máximo 30×30 → mensaje de separación y NO se coloca
 - [ ] Intentar colocar Security Panel lejano (sin overlap de alcance máximo) → éxito
 - [ ] Romper Security Panel original → su zona queda libre
 - [ ] Colocar Security Panel en la zona que acabas de liberar → éxito
@@ -26,7 +26,7 @@
 ### 1.3 Persistencia
 - [ ] Colocar Security Panel, salir del servidor, volver a entrar
 - [ ] El Security Panel sigue ahí, el claim sigue activo
-- [ ] `/give @s minerust:claim_debug_stick`, click derecho → muestra info del claim
+- [x] `/give @s minerust:claim_debug_stick`, click derecho → muestra info del claim
 
 ### 1.4 Autorización
 - [ ] Player1 coloca Security Panel
@@ -36,21 +36,21 @@
 - [ ] Player3 (no autorizado) intenta romper → sigue sin poder
 
 ### 1.5 Visualización de claim
-- [ ] Click derecho en Security Panel abre menú de opciones (no upgrade directo)
-- [ ] Desde el menú, botón de mejorar cobertura/rango → consume el coste proporcional mostrado y mejora
-- [ ] Tras mejorar desde el menú, el inventario visible actualiza diamonds/iron sin cerrar el panel
-- [ ] Romper un Security Panel mejorado → dropea el panel y la mitad de los recursos acumulados de upgrades
-- [ ] Intentar colocar otro Security Panel demasiado cerca → falla aunque ambos estén en nivel 1, porque se reserva el alcance máximo 30×30
+- [x] Click derecho en Security Panel abre menú de opciones (no upgrade directo)
+- [x] Desde el menú, botón de mejorar cobertura/rango → consume el coste proporcional mostrado y mejora
+- [x] Tras mejorar desde el menú, el inventario visible actualiza diamonds/iron sin cerrar el panel
+- [x] Romper un Security Panel mejorado → dropea el panel y la mitad de los recursos acumulados de upgrades
+- [x] Intentar colocar otro Security Panel demasiado cerca → falla aunque ambos estén en nivel 1, porque se reserva el alcance máximo 30×30
 - [ ] Colocar dos Security Panels con al menos 30 bloques de separación horizontal útil → permite que ambos puedan llegar a cobertura máxima sin solaparse
-- [ ] Desde el menú, botón Show/Hide Claim Bounds → activa/desactiva límites persistentes mientras construyes
-- [ ] Con límites activados, muestra:
+- [x] Desde el menú, botón Show/Hide Claim Bounds → activa/desactiva límites persistentes mientras construyes
+- [x] Con límites activados, muestra:
   - Owner UUID
   - Cobertura / rango
   - Centro del panel
   - Límites cubiertos X/Z e Y
-- [ ] Partículas END_ROD visibles solo en los límites exteriores del claim, sin bordes internos
-- [ ] Nivel 1 limita construcción/protección a 10×60×10 bloques centrados en el Security Panel
-- [ ] Nivel 20 limita construcción/protección a 30×60×30 bloques centrados en el Security Panel
+- [x] Partículas END_ROD visibles solo en los límites exteriores del claim, sin bordes internos
+- [x] Nivel 1 limita construcción/protección a 10×60×10 bloques centrados en el Security Panel
+- [x] Nivel 20 limita construcción/protección a 30×60×30 bloques centrados en el Security Panel
 - [ ] Fuera del volumen exacto del claim, un jugador no autorizado puede construir como fuera del claim
 
 ---
@@ -194,9 +194,9 @@
 
 ## Feature 9: Claim Debug Stick
 
-- [ ] Click derecho en aire → muestra info del claim actual (o "No claim")
-- [ ] Partículas visibles en bordes del volumen claimado
-- [ ] Info correcta: owner, nivel, cobertura y límites cubiertos
+- [x] Click derecho en aire → muestra info del claim actual (o "No claim")
+- [x] Partículas visibles en bordes del volumen claimado
+- [x] Info correcta: owner, nivel, cobertura y límites cubiertos
 
 ---
 

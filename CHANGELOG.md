@@ -12,6 +12,7 @@
 - [PENDIENTE] QA manual Final Wave: runClient/runServer con escenarios reales (TC, staff, C4, PvP, sleeping bag).
 - [PENDIENTE] Playtesting de balance: upkeep costs, daño C4/taladro, HP tiers.
 - [PENDIENTE] Implementar handlers de networking packets (actualmente skeleton no-op).
+- [QA] Security Panel parcialmente confirmado manualmente: orientación del modelo, reserva máxima 30×30 desde nivel 1, upgrade a nivel 20, GUI actual aceptable, descuento visual de inventario, refund y bounds/debug funcionando correctamente. Quedan pendientes autorización, protección, raid, PvP, sleeping bag, persistencia y otros escenarios de dos jugadores.
 - [FIXED] Normalizada la terminología visible del Security Panel: ahora habla de cobertura/rango ampliados, no de un segundo panel visible.
 
 ### Added (post-V1)

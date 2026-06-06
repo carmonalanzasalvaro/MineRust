@@ -12,8 +12,8 @@
 |---|---:|---|---|
 | Build Java/resources | ✅ Verde | `./gradlew build --no-daemon` pasa | Mantener verde tras cada cambio |
 | Cliente dev smoke | ✅ Carga recursos | `runClient` carga ResourceManager/atlas sin crash | Falta QA interactivo in-game |
-| Security Panel / claims | 🟡 Code-complete | 20 niveles, 10×10→30×30, altura 60, reserva max range | Probar manualmente placement/upgrade/refund con 2 jugadores |
-| Claim debug/bounds | 🟡 Code-complete | Volumen exterior + beams cyan | Confirmar visualmente que coincide con límites reales |
+| Security Panel / claims | 🟡 Parcialmente confirmado | Orientación, reserva 30×30, upgrade nivel 20, GUI, descuento visual y refund confirmados | Probar loot, separación positiva, autorización, persistencia y reglas con 2 jugadores |
+| Claim debug/bounds | ✅ Confirmado manual | Debug/bounds funcionan y coinciden con límites reales | Mantener como regresión en futuros cambios de claims |
 | Protección/raid core | 🟡 Code-complete | Build verde y eventos server-side implementados | Ejecutar Final Wave con player1/player2 |
 | PvP/sleeping bag | 🟡 Code-complete | Build verde | Probar muertes PvP/PvE y cooldown |
 | Documentación operativa | ✅ Activa | Skill `minerust-context` obliga docs gate | Mantener este dashboard actualizado |
@@ -49,15 +49,22 @@ V1 está **code-complete**, pero no debe considerarse release hasta completar QA
 - [x] Sleeping bag con cooldown PvP.
 - [x] Docs gate local en `.opencode/skills/minerust-context/SKILL.md`.
 
+### Confirmado manualmente
+
+- [x] Claim debug/bounds funciona correctamente.
+- [x] Modelo del Security Panel orienta correctamente.
+- [x] Paneles demasiado cercanos fallan desde nivel 1 por reserva máxima 30×30.
+- [x] Security Panel puede subir hasta nivel 20.
+- [x] GUI del Security Panel aceptable por ahora.
+- [x] Descuento visual de diamonds/iron al upgradear se actualiza sin cerrar menú.
+- [x] Refund al romper Security Panel mejorado funciona.
+- [x] Bounds visibles coinciden con el volumen real.
+
 ### Pendiente de confirmar manualmente
 
-- [ ] Colocar Security Panel y confirmar orientación/modelo/loot.
-- [ ] Confirmar que dos paneles demasiado cercanos fallan desde nivel 1 por reserva máxima 30×30.
+- [ ] Confirmar loot/drop base del Security Panel al romper uno sin upgrades.
 - [ ] Confirmar que dos paneles suficientemente separados pueden subir ambos a nivel 20 sin solaparse.
-- [ ] Confirmar GUI: nivel, área horizontal, coste siguiente, botones y textos.
-- [ ] Confirmar descuento visual inmediato de diamonds/iron al upgradear.
-- [ ] Confirmar refund de media inversión acumulada al romper panel mejorado.
-- [ ] Confirmar bounds visibles coinciden con `10×60×10` y `30×60×30` reales.
+- [ ] Revisar posible mejora futura de GUI aunque la versión actual queda aceptada para V1.
 - [ ] Confirmar que fuera del volumen exacto un no autorizado puede construir/romper normal.
 - [ ] Confirmar autorización de un segundo jugador desde menú.
 - [ ] Confirmar protección staff en claim propio, fuera de claim y claim enemigo.
@@ -99,22 +106,22 @@ Si aparece una decisión nueva durante implementación o QA, añadir una fila aq
 ### Security Panel
 
 - [ ] `/give @s minerust:tool_cupboard` entrega un Security Panel con nombre correcto.
-- [ ] Colocación en suelo plano mantiene el bloque y orienta la pantalla hacia el jugador.
-- [ ] Menú abre con click derecho.
-- [ ] Nivel inicial muestra `Level 1/20` y área `10x10`.
-- [ ] Botón upgrade exige coste proporcional y no permite upgrade sin items suficientes.
-- [ ] Upgrade consume items y el inventario visible se actualiza sin cerrar menú.
-- [ ] Nivel máximo muestra `Level 20/20`, área `30x30` y `Next: Max level`.
-- [ ] Romper panel mejorado devuelve item + mitad de recursos acumulados de upgrades.
-- [ ] Placement demasiado cercano muestra mensaje de separación por máximo alcance.
+- [x] Colocación en suelo plano mantiene el bloque y orienta la pantalla hacia el jugador.
+- [x] Menú abre con click derecho.
+- [x] Nivel inicial muestra `Level 1/20` y área `10x10`.
+- [x] Botón upgrade exige coste proporcional y no permite upgrade sin items suficientes.
+- [x] Upgrade consume items y el inventario visible se actualiza sin cerrar menú.
+- [x] Nivel máximo muestra `Level 20/20`, área `30x30` y `Next: Max level`.
+- [x] Romper panel mejorado devuelve item + mitad de recursos acumulados de upgrades.
+- [x] Placement demasiado cercano muestra mensaje de separación por máximo alcance.
 - [ ] Placement separado permite dos paneles coexistiendo y subir ambos sin colisión.
 
 ### Claims, visualización y autorización
 
-- [ ] `Show/Hide Claim Bounds` activa/desactiva partículas persistentes.
-- [ ] Bounds dibuja un prisma exterior sin líneas internas.
-- [ ] Esquinas cyan/beacon son visibles a distancia razonable.
-- [ ] Debug stick muestra owner, nivel, cobertura, centro del panel y límites X/Z/Y.
+- [x] `Show/Hide Claim Bounds` activa/desactiva partículas persistentes.
+- [x] Bounds dibuja un prisma exterior sin líneas internas.
+- [x] Esquinas cyan/beacon son visibles a distancia razonable.
+- [x] Debug stick muestra owner, nivel, cobertura, centro del panel y límites X/Z/Y.
 - [ ] No autorizado no puede romper/colocar dentro del volumen exacto.
 - [ ] No autorizado sí puede romper/colocar fuera del volumen exacto.
 - [ ] Owner autoriza Player2 desde menú y Player2 puede construir dentro.
