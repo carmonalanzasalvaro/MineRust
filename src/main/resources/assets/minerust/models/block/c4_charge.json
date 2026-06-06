@@ -1,18 +1,18 @@
 {
-  "credit": "MineRust C4 Low-Poly",
+  "credit": "MineRust C4 Explosive Charge",
   "ambientocclusion": false,
   "textures": {
-    "particle": "minerust:block/c4_body",
-    "body": "minerust:block/c4_body",
+    "particle": "minerust:block/c4_charge",
+    "body": "minerust:block/c4_charge",
     "front": "minerust:block/c4_front",
     "top": "minerust:block/c4_top",
     "side": "minerust:block/c4_side"
   },
   "elements": [
     {
-      "name": "main_body",
-      "from": [2, 0, 3],
-      "to": [14, 5, 13],
+      "name": "main_bundle",
+      "from": [3, 0, 4],
+      "to": [13, 6, 12],
       "faces": {
         "north": {"uv": [0, 0, 16, 16], "texture": "#front"},
         "south": {"uv": [0, 0, 16, 16], "texture": "#side"},
@@ -21,50 +21,13 @@
         "up": {"uv": [0, 0, 16, 16], "texture": "#top"},
         "down": {"uv": [0, 0, 16, 16], "texture": "#body"}
       }
-    },
-    {
-      "name": "front_panel",
-      "from": [3, 0.5, 2.5],
-      "to": [13, 4.5, 3.5],
-      "faces": {
-        "north": {"uv": [0, 0, 32, 32], "texture": "#front"},
-        "east": {"uv": [0, 0, 16, 16], "texture": "#side"},
-        "west": {"uv": [0, 0, 16, 16], "texture": "#side"},
-        "up": {"uv": [0, 0, 16, 16], "texture": "#top"},
-        "down": {"uv": [0, 0, 16, 16], "texture": "#body"}
-      }
-    },
-    {
-      "name": "detonator",
-      "from": [10, 5, 9],
-      "to": [13, 6.5, 12],
-      "faces": {
-        "north": {"uv": [0, 0, 16, 16], "texture": "#top"},
-        "south": {"uv": [0, 0, 16, 16], "texture": "#top"},
-        "east": {"uv": [0, 0, 16, 16], "texture": "#top"},
-        "west": {"uv": [0, 0, 16, 16], "texture": "#top"},
-        "up": {"uv": [0, 0, 16, 16], "texture": "#top"}
-      }
-    },
-    {
-      "name": "wire_red_top",
-      "from": [2, 5.2, 3],
-      "to": [14, 5.8, 3.8],
-      "faces": {
-        "north": {"uv": [0, 0, 16, 16], "texture": "#top"},
-        "south": {"uv": [0, 0, 16, 16], "texture": "#top"},
-        "east": {"uv": [0, 0, 16, 16], "texture": "#top"},
-        "west": {"uv": [0, 0, 16, 16], "texture": "#top"},
-        "up": {"uv": [0, 0, 16, 16], "texture": "#top"},
-        "down": {"uv": [0, 0, 16, 16], "texture": "#top"}
-      }
     }
   ],
   "display": {
     "thirdperson_righthand": {
       "rotation": [75, 45, 0],
-      "translation": [0, 2.5, 2],
-      "scale": [0.5, 0.5, 0.5]
+      "translation": [0, 2.5, 0],
+      "scale": [0.55, 0.55, 0.55]
     },
     "firstperson_righthand": {
       "rotation": [0, 45, 0],
@@ -77,7 +40,7 @@
     },
     "gui": {
       "rotation": [30, 225, 0],
-      "scale": [0.8, 0.8, 0.8]
+      "scale": [0.9, 0.9, 0.9]
     }
   }
 }
