@@ -1,26 +1,83 @@
 {
-  "parent": "minecraft:block/block",
+  "credit": "MineRust C4 Low-Poly",
+  "ambientocclusion": false,
   "textures": {
-    "particle": "minerust:block/c4_charge_north",
-    "north": "minerust:block/c4_charge_north",
-    "south": "minerust:block/c4_charge_south",
-    "east": "minerust:block/c4_charge_east",
-    "west": "minerust:block/c4_charge_west",
-    "up": "minerust:block/c4_charge_up",
-    "down": "minerust:block/c4_charge_down"
+    "particle": "minerust:block/c4_body",
+    "body": "minerust:block/c4_body",
+    "front": "minerust:block/c4_front",
+    "top": "minerust:block/c4_top",
+    "side": "minerust:block/c4_side"
   },
   "elements": [
     {
-      "from": [0, 0, 0],
-      "to": [16, 16, 16],
+      "name": "main_body",
+      "from": [2, 0, 3],
+      "to": [14, 5, 13],
       "faces": {
-        "north": {"uv": [0, 0, 16, 16], "texture": "#north"},
-        "south": {"uv": [0, 0, 16, 16], "texture": "#south"},
-        "east": {"uv": [0, 0, 16, 16], "texture": "#east"},
-        "west": {"uv": [0, 0, 16, 16], "texture": "#west"},
-        "up": {"uv": [0, 0, 16, 16], "texture": "#up"},
-        "down": {"uv": [0, 0, 16, 16], "texture": "#down"}
+        "north": {"uv": [0, 0, 16, 16], "texture": "#front"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#side"},
+        "east": {"uv": [0, 0, 16, 16], "texture": "#side"},
+        "west": {"uv": [0, 0, 16, 16], "texture": "#side"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#top"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#body"}
+      }
+    },
+    {
+      "name": "front_panel",
+      "from": [3, 0.5, 2.5],
+      "to": [13, 4.5, 3.5],
+      "faces": {
+        "north": {"uv": [0, 0, 32, 32], "texture": "#front"},
+        "east": {"uv": [0, 0, 16, 16], "texture": "#side"},
+        "west": {"uv": [0, 0, 16, 16], "texture": "#side"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#top"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#body"}
+      }
+    },
+    {
+      "name": "detonator",
+      "from": [10, 5, 9],
+      "to": [13, 6.5, 12],
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#top"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#top"},
+        "east": {"uv": [0, 0, 16, 16], "texture": "#top"},
+        "west": {"uv": [0, 0, 16, 16], "texture": "#top"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#top"}
+      }
+    },
+    {
+      "name": "wire_red_top",
+      "from": [2, 5.2, 3],
+      "to": [14, 5.8, 3.8],
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#top"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#top"},
+        "east": {"uv": [0, 0, 16, 16], "texture": "#top"},
+        "west": {"uv": [0, 0, 16, 16], "texture": "#top"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#top"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#top"}
       }
     }
-  ]
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 2],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 45, 0],
+      "translation": [0, 3, 0],
+      "scale": [0.6, 0.6, 0.6]
+    },
+    "ground": {
+      "translation": [0, 3, 0],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "gui": {
+      "rotation": [30, 225, 0],
+      "scale": [0.8, 0.8, 0.8]
+    }
+  }
 }
