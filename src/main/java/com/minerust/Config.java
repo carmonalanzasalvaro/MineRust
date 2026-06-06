@@ -10,14 +10,25 @@ public class Config
 {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
-    // Tool Cupboard radius (in chunks)
-    private static final ForgeConfigSpec.IntValue TC_TIER1_CHUNK_RADIUS_CONFIG = BUILDER
-            .comment("Chunk radius for Tier 1 Tool Cupboard. 0 = single chunk.")
-            .defineInRange("tcTier1ChunkRadius", 0, 0, 16);
+    private static final ForgeConfigSpec.IntValue TC_MIN_LEVEL_CONFIG = BUILDER
+            .comment("Starting Security Panel level.")
+            .defineInRange("tcMinLevel", 1, 1, 100);
 
-    private static final ForgeConfigSpec.IntValue TC_TIER2_CHUNK_RADIUS_CONFIG = BUILDER
-            .comment("Chunk radius for Tier 2 Tool Cupboard. 1 = 3x3 chunk area.")
-            .defineInRange("tcTier2ChunkRadius", 1, 0, 16);
+    private static final ForgeConfigSpec.IntValue TC_MAX_LEVEL_CONFIG = BUILDER
+            .comment("Maximum Security Panel level.")
+            .defineInRange("tcMaxLevel", 20, 1, 100);
+
+    private static final ForgeConfigSpec.IntValue TC_BASE_FOOTPRINT_CONFIG = BUILDER
+            .comment("Horizontal footprint size in blocks at the starting level.")
+            .defineInRange("tcBaseFootprint", 10, 1, 256);
+
+    private static final ForgeConfigSpec.IntValue TC_MAX_FOOTPRINT_CONFIG = BUILDER
+            .comment("Horizontal footprint size in blocks at the maximum level.")
+            .defineInRange("tcMaxFootprint", 30, 1, 512);
+
+    private static final ForgeConfigSpec.IntValue TC_VERTICAL_RADIUS_CONFIG = BUILDER
+            .comment("Vertical coverage radius in blocks above and below the Security Panel.")
+            .defineInRange("tcVerticalRadius", 30, 0, 320);
 
     // Upkeep costs per protected block tier
     private static final ForgeConfigSpec.IntValue UPKEEP_STRAW_CONFIG = BUILDER
@@ -78,8 +89,11 @@ public class Config
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
-    public static int TC_TIER1_CHUNK_RADIUS;
-    public static int TC_TIER2_CHUNK_RADIUS;
+    public static int TC_MIN_LEVEL;
+    public static int TC_MAX_LEVEL;
+    public static int TC_BASE_FOOTPRINT;
+    public static int TC_MAX_FOOTPRINT;
+    public static int TC_VERTICAL_RADIUS;
 
     public static int UPKEEP_STRAW;
     public static int UPKEEP_WOOD;
@@ -102,8 +116,11 @@ public class Config
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
     {
-        TC_TIER1_CHUNK_RADIUS = TC_TIER1_CHUNK_RADIUS_CONFIG.get();
-        TC_TIER2_CHUNK_RADIUS = TC_TIER2_CHUNK_RADIUS_CONFIG.get();
+        TC_MIN_LEVEL = TC_MIN_LEVEL_CONFIG.get();
+        TC_MAX_LEVEL = TC_MAX_LEVEL_CONFIG.get();
+        TC_BASE_FOOTPRINT = TC_BASE_FOOTPRINT_CONFIG.get();
+        TC_MAX_FOOTPRINT = TC_MAX_FOOTPRINT_CONFIG.get();
+        TC_VERTICAL_RADIUS = TC_VERTICAL_RADIUS_CONFIG.get();
 
         UPKEEP_STRAW = UPKEEP_STRAW_CONFIG.get();
         UPKEEP_WOOD = UPKEEP_WOOD_CONFIG.get();

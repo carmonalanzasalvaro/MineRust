@@ -15,11 +15,8 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, MineRustMod.MODID);
 
-    public static final RegistryObject<Item> TOOL_CUPBOARD_TIER1 = ITEMS.register("tool_cupboard_tier1",
-            () -> new BlockItem(ModBlocks.TOOL_CUPBOARD_TIER1.get(), new Item.Properties()));
-
-    public static final RegistryObject<Item> TOOL_CUPBOARD_TIER2 = ITEMS.register("tool_cupboard_tier2",
-            () -> new BlockItem(ModBlocks.TOOL_CUPBOARD_TIER2.get(), new Item.Properties()));
+    public static final RegistryObject<Item> TOOL_CUPBOARD = ITEMS.register("tool_cupboard",
+            () -> new BlockItem(ModBlocks.TOOL_CUPBOARD.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> SLEEPING_BAG = ITEMS.register("sleeping_bag",
             () -> new BlockItem(ModBlocks.SLEEPING_BAG.get(), new Item.Properties()));

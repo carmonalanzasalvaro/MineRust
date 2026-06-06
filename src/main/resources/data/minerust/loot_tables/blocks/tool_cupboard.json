@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minerust:tool_cupboard_tier2"
+          "name": "minerust:tool_cupboard"
         }
       ],
       "conditions": [

@@ -8,7 +8,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.event.TickEvent;
@@ -16,7 +15,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,60 +64,37 @@ public class ToolCupboardUpkeepManager {
                 continue;
             }
 
-            Map<Long, List<ClaimSavedData.ProtectedBlockData>> blocksByChunk = groupProtectedBlocksByChunk(data, dimension);
-
             for (ClaimSavedData.ToolCupboardData tcData : dimEntry.getValue().values()) {
-                processToolCupboard(level, data, tcData, blocksByChunk);
+                processToolCupboard(level, data, tcData, dimension);
             }
         }
     }
 
-    private static Map<Long, List<ClaimSavedData.ProtectedBlockData>> groupProtectedBlocksByChunk(ClaimSavedData data, String dimension) {
-        Map<Long, List<ClaimSavedData.ProtectedBlockData>> result = new HashMap<>();
-        Map<Long, ClaimSavedData.ProtectedBlockData> dimBlocks = data.getProtectedBlocksByDimension().get(dimension);
-        if (dimBlocks == null) {
-            return result;
-        }
-
-        for (ClaimSavedData.ProtectedBlockData block : dimBlocks.values()) {
-            BlockPos pos = BlockPos.of(block.getPackedPos());
-            long packedChunk = packChunk(pos.getX() >> 4, pos.getZ() >> 4);
-            result.computeIfAbsent(packedChunk, k -> new ArrayList<>()).add(block);
-        }
-        return result;
-    }
-
-    private static void processToolCupboard(ServerLevel level, ClaimSavedData data, ClaimSavedData.ToolCupboardData tcData, Map<Long, List<ClaimSavedData.ProtectedBlockData>> blocksByChunk) {
-        int radius = tcData.getTier() == 1 ? Config.TC_TIER1_CHUNK_RADIUS : Config.TC_TIER2_CHUNK_RADIUS;
-
+    private static void processToolCupboard(ServerLevel level, ClaimSavedData data, ClaimSavedData.ToolCupboardData tcData, String dimension) {
         int totalWood = 0;
         int totalStone = 0;
         int totalMetal = 0;
         int totalHq = 0;
         List<ClaimSavedData.ProtectedBlockData> affectedBlocks = new ArrayList<>();
+        Map<Long, ClaimSavedData.ProtectedBlockData> dimBlocks = data.getProtectedBlocksByDimension().get(dimension);
 
-        for (int dx = -radius; dx <= radius; dx++) {
-            for (int dz = -radius; dz <= radius; dz++) {
-                long packedChunk = packChunk(tcData.getChunkX() + dx, tcData.getChunkZ() + dz);
-                List<ClaimSavedData.ProtectedBlockData> chunkBlocks = blocksByChunk.get(packedChunk);
-                if (chunkBlocks == null) {
+        if (dimBlocks != null) {
+            for (ClaimSavedData.ProtectedBlockData block : dimBlocks.values()) {
+                if (!ToolCupboardClaimManager.containsBlock(tcData, BlockPos.of(block.getPackedPos()))) {
                     continue;
                 }
-
-                for (ClaimSavedData.ProtectedBlockData block : chunkBlocks) {
-                    affectedBlocks.add(block);
-                    String tier = block.getTier();
-                    if ("STRAW".equals(tier)) {
-                        totalWood += Config.UPKEEP_STRAW;
-                    } else if ("WOOD".equals(tier)) {
-                        totalWood += Config.UPKEEP_WOOD;
-                    } else if ("STONE".equals(tier)) {
-                        totalStone += Config.UPKEEP_STONE;
-                    } else if ("METAL".equals(tier)) {
-                        totalMetal += Config.UPKEEP_METAL;
-                    } else if ("HQ".equals(tier)) {
-                        totalHq += Config.UPKEEP_HQ;
-                    }
+                affectedBlocks.add(block);
+                String tier = block.getTier();
+                if ("STRAW".equals(tier)) {
+                    totalWood += Config.UPKEEP_STRAW;
+                } else if ("WOOD".equals(tier)) {
+                    totalWood += Config.UPKEEP_WOOD;
+                } else if ("STONE".equals(tier)) {
+                    totalStone += Config.UPKEEP_STONE;
+                } else if ("METAL".equals(tier)) {
+                    totalMetal += Config.UPKEEP_METAL;
+                } else if ("HQ".equals(tier)) {
+                    totalHq += Config.UPKEEP_HQ;
                 }
             }
         }
@@ -169,7 +144,4 @@ public class ToolCupboardUpkeepManager {
         }
     }
 
-    private static long packChunk(int x, int z) {
-        return ((long) x << 32) | (z & 0xFFFFFFFFL);
-    }
 }

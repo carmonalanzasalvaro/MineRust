@@ -14,8 +14,7 @@ public class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<ToolCupboardBlockEntity>> TOOL_CUPBOARD =
             BLOCK_ENTITIES.register("tool_cupboard",
                     () -> BlockEntityType.Builder.of(ToolCupboardBlockEntity::new,
-                            ModBlocks.TOOL_CUPBOARD_TIER1.get(),
-                            ModBlocks.TOOL_CUPBOARD_TIER2.get()).build(null));
+                            ModBlocks.TOOL_CUPBOARD.get()).build(null));
 
     public static void init(net.minecraftforge.eventbus.api.IEventBus modEventBus) {
         BLOCK_ENTITIES.register(modEventBus);

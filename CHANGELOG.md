@@ -12,15 +12,38 @@
 - [PENDIENTE] QA manual Final Wave: runClient/runServer con escenarios reales (TC, staff, C4, PvP, sleeping bag).
 - [PENDIENTE] Playtesting de balance: upkeep costs, daño C4/taladro, HP tiers.
 - [PENDIENTE] Implementar handlers de networking packets (actualmente skeleton no-op).
+- [FIXED] Normalizada la terminología visible del Security Panel: ahora habla de cobertura/rango ampliados, no de un segundo panel visible.
 
 ### Added (post-V1)
+- **Security Panel 3D model** — Replaced `cube_all` placeholder with a Forge OBJ import converted from the user-provided Sketchfab/Blockbench GLTF. The imported OBJ preserves the real TV mesh groups and uses the original 128×128 TV texture with forced opaque alpha to avoid invisible faces/floor.
+- **CC BY 4.0 attribution** — Original model "minecraft TV model" by DPancito on Sketchfab (`https://sketchfab.com/3d-models/minecraft-tv-model-6f5987a2c55b419f9d424d32746b0e35`), licensed under CC Attribution. Converted to Forge OBJ (`loader: forge:obj`) because Forge/vanilla 1.20.1 does not load GLTF block models directly without a custom renderer/loader.
 - **C4 texturas 3D** — Generadas desde asset OBJ original de CS:GO C4. 6 texturas proyectadas (north/south/east/west/up/down) aplicadas a modelo de bloque completo.
-- **Claim debug stick** — Item de desarrollo para inspeccionar claims (owner, tier, chunks cubiertos) y visualizar bordes con partículas END_ROD.
+- **Claim debug stick** — Item de desarrollo para inspeccionar claims (owner, nivel, cobertura y límites cubiertos) y visualizar bordes con partículas END_ROD.
 - **Launchers** — `server.sh`, `player1.sh`, `player2.sh` para arrancar servidor y clientes de desarrollo.
 
+### Changed (post-V1)
+- **Tool Cupboard renamed to Security Panel** — Player-facing name changed from "Tool Cupboard" / "Armario de Herramientas" to "Security Panel" / "Panel de Seguridad". Internal registry ID `minerust:tool_cupboard` and all Java class names preserved. All in-game chat messages, lang files (`en_us.json`, `es_es.json`), README, and CHECKLIST updated.
+- **Tool Cupboard single-block refactor** — Replaced separate `tool_cupboard_tier1` / `tool_cupboard_tier2` blocks and items with one `minerust:tool_cupboard`. Player-facing wording now treats the upgrade as Security Panel coverage/range expansion, while the internal BlockEntity state continues to track the implementation detail needed for claim radius.
+- **Security Panel interaction flow** — Right-click now opens a Security Panel menu with explicit actions for upgrading coverage, toggling persistent claim-bound previews, and authorizing a nearby player. The panel now faces the placing player and switches from the red-status texture to a green-status texture once upgraded.
+- **Security Panel 3D coverage** — Claim authorization applies only inside the 3D volume around the panel. The claim/debug messages report exact block bounds.
+- **Security Panel block-centered coverage** — Coverage is now centered on the exact Security Panel block instead of the containing chunk.
+- **Security Panel level progression** — Coverage now uses 20 levels. Level 1 starts at a 10×10 footprint, level 20 reaches a 30×30 footprint, and vertical coverage is fixed at 60 total blocks. The Security Panel GUI displays only the horizontal footprint (`10x10` through `30x30`) instead of the vertical claim size.
+- **Security Panel placement reservation** — New Security Panels must be far enough apart for maximum 30×30 coverage from the start. Placement checks compare max coverage against max coverage so upgrades cannot later collide with a neighboring panel.
+- **Security Panel upgrade economy feedback** — Upgrade item removal now syncs the player inventory immediately while the menu stays open, avoiding delayed visual updates until closing the panel.
+- **Security Panel upgrade refund** — Breaking an upgraded Security Panel now drops half of the cumulative diamonds and iron ingots spent on coverage upgrades.
+- **Project documentation skill gate** — Strengthened `.opencode/skills/minerust-context/SKILL.md` so any MineRust change must also update `CHANGELOG.md`, `ROADMAP.md`, `README.md`, `CHECKLIST-V1.md`, or explicitly explain why no docs changed. The skill now forbids automatic commit/push unless the user asks.
+- **Roadmap dashboard** — Reworked `ROADMAP.md` into a GitHub-friendly project dashboard with status tables, V1 Final Wave checks, historical decisions, technical debt, future iterations, and explicit rules for updating the roadmap when unexpected work appears.
+
+### Removed (post-V1)
+- **Tiered Tool Cupboard registries/resources** — Removed tier1/tier2 TC recipes, loot tables, blockstates, models, translations, and item/block registry entries; migrated the starter recipe and loot to `tool_cupboard`.
+
 ### Fixed (post-V1)
+- **Claim bounds internal edges** — Security Panel boundary previews and the claim debug stick now draw one exterior 3D prism around the covered volume instead of outlining internal edges.
+- **Claim bounds corner visibility** — Added dense cyan corner beams to Security Panel boundary previews and claim debug stick outlines so claim corners read like beacon-style vertical markers instead of faint smoke columns.
+- **TC placement overlap bypass** — `ToolCupboardBlock.setPlacedBy` now checks claim overlap before registering, and `ClaimProtectionEvents.onBlockPlace` cancels unregistered/overlapping TC placements without removing existing claims. This prevents new `minerust:tool_cupboard` placements from overwriting another TC claim.
 - **TC auto-removal** — `ToolCupboardBlock.setPlacedBy` registraba claim antes del evento `BlockEvent.EntityPlaceEvent`, causando que `wouldOverlap` detectara el propio claim y cancelara la colocación. Fix: `wouldOverlap` ahora acepta `ignorePos` para excluir el claim recién colocado.
 - **TC propiedades de bloque** — Cambiado de `Properties.copy(Blocks.CHEST)` (que causaba comportamientos extraños) a `Properties.copy(Blocks.OAK_PLANKS).strength(2.0f, 3.0f)`.
+- **Security Panel occlusion** — Añadido `.noOcclusion()` al bloque para que el modelo no cúbico de TV no oculte el suelo/caras vecinas.
 - **C4 modelo roto** — Reemplazado JSON de 27.000 líneas/400 elementos con modelo de caja simple de 2 elementos.
 - **Bedrock protection exploit** — El bastón permitía proteger bedrock (y otros bloques indestructibles), haciéndolos rompibles con C4. Fix: `ProtectionStaffItem.applyProtection` ahora rechaza bloques con `destroySpeed < 0`.
 - **C4 directional placement** — C4 ahora se coloca en cualquier cara del bloque como un botón, usando `DirectionProperty.FACING`. El modelo rota según la orientación.
@@ -37,7 +60,7 @@ Build pasa (`./gradlew build --no-daemon` → BUILD SUCCESSFUL). Todas las featu
 ### Added
 
 #### Sistemas core
-- **Tool Cupboard (2 tiers)** — Tier 1 protege 1 chunk; tier 2 protege 3×3 chunks. Bloque colocable con BlockEntity que persiste owner, autorizados, recursos y tier.
+- **Tool Cupboard (historical V1 wording)** — One Security Panel protects a centered block volume and can expand its coverage/range via owner upgrade with proportional diamond/iron costs. Bloque colocable con BlockEntity que persiste owner, autorizados, recursos y el estado interno de cobertura.
 - **Autorización manual** — Owner añade UUIDs autorizados via sneak-right-click en TC con jugador cercano. Sin clanes ni grupos automáticos.
 - **Upkeep y decay** — Scheduler server-side consume recursos según bloques protegidos y tiers. Sin recursos: bloques bajan 1 tier cada intervalo configurable hasta STRAW, luego pierden HP.
 - **Persistencia server-side** — `ClaimSavedData` (LevelSavedData) guarda claims, bloques protegidos y cooldowns en NBT. Sobrevive reinicios.
@@ -56,7 +79,7 @@ Build pasa (`./gradlew build --no-daemon` → BUILD SUCCESSFUL). Todas las featu
 #### Assets y datos
 - **Assets originales** — 7 texturas PNG 16×16 pixel art procedural (4 bloques, 3 items). Modelos JSON, blockstates, lang EN/ES.
 - **C4 model 3D** — Modelo multi-element convertido de asset OBJ, con textura palette-mapped.
-- **Recetas** — 7 recetas crafteables (TC tier 1/2, sleeping bag, C4, bastón, taladro, pistola).
+- **Recetas** — Recetas crafteables para Security Panel, sleeping bag, C4, bastón, taladro y pistola.
 - **Loot tables** — 4 tablas para bloques (dropean item con `survives_explosion`).
 - **Creative tab** — Tab "MineRust" con todos los items, icono scrap pistol.
 - **Claim debug stick** — Item de desarrollo para inspeccionar claims y visualizar bordes con partículas.

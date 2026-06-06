@@ -4,6 +4,8 @@ import com.minerust.registry.ModBlockEntities;
 import com.minerust.registry.ModBlocks;
 import com.minerust.registry.ModCreativeTabs;
 import com.minerust.registry.ModItems;
+import com.minerust.registry.ModMenus;
+import com.minerust.networking.ModNetworking;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -39,6 +41,7 @@ public class MineRustMod {
         ModBlocks.init(modEventBus);
         ModItems.init(modEventBus);
         ModBlockEntities.init(modEventBus);
+        ModMenus.init(modEventBus);
         ModCreativeTabs.init(modEventBus);
 
         // Register common setup listener
@@ -52,6 +55,7 @@ public class MineRustMod {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        ModNetworking.register();
         LOGGER.info("MineRust common setup complete.");
     }
 

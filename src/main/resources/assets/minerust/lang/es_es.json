@@ -1,6 +1,5 @@
 {
-  "block.minerust.tool_cupboard_tier1": "Armario de Herramientas (Nivel 1)",
-  "block.minerust.tool_cupboard_tier2": "Armario de Herramientas (Nivel 2)",
+  "block.minerust.tool_cupboard": "Panel de Seguridad",
   "block.minerust.sleeping_bag": "Saco de Dormir",
   "block.minerust.c4_charge": "Carga C4",
   "item.minerust.protection_staff": "Baston de Proteccion",

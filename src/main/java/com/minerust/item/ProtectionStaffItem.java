@@ -55,11 +55,9 @@ public class ProtectionStaffItem extends Item {
 
     private InteractionResult applyProtection(ServerLevel level, BlockPos pos, ItemStack stack, Player player) {
         String dimension = level.dimension().location().toString();
-        int chunkX = pos.getX() >> 4;
-        int chunkZ = pos.getZ() >> 4;
 
         ClaimSavedData data = ClaimSavedData.get(level);
-        ClaimSavedData.ToolCupboardData claim = data.getClaimAtChunk(dimension, chunkX, chunkZ);
+        ClaimSavedData.ToolCupboardData claim = ToolCupboardClaimManager.getClaimAt(level, pos);
 
         if (level.getBlockState(pos).getDestroySpeed(level, pos) < 0) {
             player.displayClientMessage(
@@ -71,7 +69,7 @@ public class ProtectionStaffItem extends Item {
 
         if (claim == null) {
             player.displayClientMessage(
-                Component.literal("No Tool Cupboard claim covers this block."),
+                Component.literal("No Security Panel claim covers this block."),
                 true
             );
             return InteractionResult.FAIL;

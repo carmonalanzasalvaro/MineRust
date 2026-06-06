@@ -1,289 +1,286 @@
-# MineRust Roadmap — De V1 a Rust completo
+# MineRust Roadmap Dashboard
 
-> Documento vivo. Cada iteración debe completarse al 100% (build + QA manual) antes de pasar a la siguiente.
-> **Regla de oro:** si una feature rompe algo anterior, se arregla antes de continuar.
-
----
-
-## Estado actual: V1 completada
-
-**Lo que ya funciona:**
-- Tool Cupboard (2 tiers) + autorización manual + upkeep/decay
-- Bastón de protección (5 tiers: STRAW → HQ)
-- C4 direccional (coloca en cualquier cara)
-- Taladro de raid (daño progresivo)
-- Scrap pistol (arma a distancia del mod)
-- Sleeping bag (respawn PvP con cooldown)
-- Filtro PvP vanilla (desactiva melee/rango vanilla entre jugadores)
-- Anti-bypass vanilla (TNT, lava, fuego, pistones no rompen bloques protegidos)
-- Claim debug stick (visualización de chunks + partículas)
+> Fuente de verdad para que cualquier colaborador vea en GitHub qué existe, qué falta confirmar, qué se descubrió durante el desarrollo y cuál es el siguiente paso.
+>
+> Regla de oro: cuando aparece un cambio no previsto, se añade aquí como decisión, check de QA o deuda antes de cerrar la tarea.
 
 ---
 
-## Iteración 2 — "Supervivencia y combate" (V1.1)
+## Vista rápida
 
-### Objetivo
-Tener un loop de supervivencia completo: conseguir recursos, craftear armas básicas, curarse, y defenderse.
+| Área | Estado | Evidencia | Siguiente acción |
+|---|---:|---|---|
+| Build Java/resources | ✅ Verde | `./gradlew build --no-daemon` pasa | Mantener verde tras cada cambio |
+| Cliente dev smoke | ✅ Carga recursos | `runClient` carga ResourceManager/atlas sin crash | Falta QA interactivo in-game |
+| Security Panel / claims | 🟡 Code-complete | 20 niveles, 10×10→30×30, altura 60, reserva max range | Probar manualmente placement/upgrade/refund con 2 jugadores |
+| Claim debug/bounds | 🟡 Code-complete | Volumen exterior + beams cyan | Confirmar visualmente que coincide con límites reales |
+| Protección/raid core | 🟡 Code-complete | Build verde y eventos server-side implementados | Ejecutar Final Wave con player1/player2 |
+| PvP/sleeping bag | 🟡 Code-complete | Build verde | Probar muertes PvP/PvE y cooldown |
+| Documentación operativa | ✅ Activa | Skill `minerust-context` obliga docs gate | Mantener este dashboard actualizado |
 
-### Features
-1. **Nodos de recursos** (árboles, rocas, minerales que dropean más cantidad que vanilla)
-2. **Piedra de mano** — Herramienta inicial (equivalente al "rock" de Rust)
-3. **Lanza/spear** — Arma melee throwable
-4. **Machete** — Arma melee rápida
-5. **Crossbow** — Arma a distancia de tier bajo
-6. **Escopeta de tubo** (pipe shotgun) — Escopeta crafteable de tier medio
-7. **Granadas**
-   - F1 Grenade (explosiva básica)
-   - Beancan Grenade (inestable, barata)
-8. **Médicos**
-   - Bandage (cura pequeña, para bleeding)
-   - Syringe/Medkit (cura grande)
-9. **Armaduras** (4 tiers)
-   - Burlap (tela) — tier 1
-   - Wood/Roadsign — tier 2
-   - Metal — tier 3
-   - HQ (high quality) — tier 4
-10. **Bolsas** — Extra inventory slots (small/large backpack)
-11. **Loot del mundo**
-    - Barriles flotantes en playas
-    - Crates en radtowns (monumentos básicos)
-    - Componentes (scrap, gears, pipes, springs, etc.)
-12. **Radiación básica** — Zonas con radiación (cerca de monumentos), requiere protección
-
-### QA Gate
-- [ ] Craftear piedra de mano y farmear árbol/roca
-- [ ] Craftear lanza, matar mob, lanzarla
-- [ ] Craftear crossbow, disparar a otro jugador
-- [ ] Craftear escopeta, recargar, disparar
-- [ ] Usar bandage mientras tienes "bleeding" (si implementamos bleeding)
-- [ ] Equipar armadura y ver reducción de daño
-- [ ] Encontrar barrel/crate en el mundo y lootearlo
-- [ ] Entrar en zona radiada sin protección → recibir daño
+Leyenda: ✅ confirmado automatizado o regla activa · 🟡 implementado pendiente de QA manual · 🔴 bloqueado o roto · ⚪ planificado.
 
 ---
 
-## Iteración 3 — "Bases y defensa" (V1.2)
+## Estado actual: V1 Final Wave
 
-### Objetivo
-Poder construir bases defensivas reconocibles como bases de Rust.
+V1 está **code-complete**, pero no debe considerarse release hasta completar QA manual con servidor y dos clientes.
 
-### Features
-1. **High External Walls** — Muros altos de madera/piedra/metal para rodear bases
-2. **Gates** — Puertas grandes para high external walls
-3. **Barricades** — Obstáculos temporales (madera con pinchos, etc.)
-4. **Traps**
-   - Bear Trap — Trampa de oso (daño + bleed)
-   - Landmine — Mina terrestre (explota al pisar)
-   - Shotgun Trap — Trampa de escopeta automática (requiere munición)
-5. **Auto Turret** — Torreta automática (requiere munición + electricidad básica)
-6. **Ladders** — Escaleras para raid/trepado (se colocan en paredes enemigas)
-7. **Code Lock** — Cerradura con código numérico para puertas y cofres
-8. **Key Lock** — Cerradura con llave física (tier bajo)
-9. **Double Doors** — Puertas dobles (garage door)
-10. **Hatch** — Escotillas en el suelo
-11. **Shooting Floor** — Plataformas con almenas para defender
+### Entregado
 
-### QA Gate
-- [ ] Colocar high external wall alrededor de una base
-- [ ] Craftear code lock, poner código, abrir/cerrar puerta
-- [ ] Colocar bear trap, pisarla, recibir daño
-- [ ] Colocar auto turret, cargar munición, que dispare a jugador enemigo
-- [ ] Colocar ladder en pared enemiga y trepar
+- [x] Security Panel único (`minerust:tool_cupboard`) en vez de tier1/tier2 separados.
+- [x] Nombre visible Security Panel / Panel de Seguridad.
+- [x] Modelo 3D TV importado desde asset real vía Forge OBJ.
+- [x] GUI del Security Panel con upgrade, bounds y autorización cercana.
+- [x] Claim centrado en bloque del panel, no en chunk.
+- [x] 20 niveles de cobertura horizontal: nivel 1 `10x10`, nivel 20 `30x30`.
+- [x] Altura real del claim: 60 bloques totales.
+- [x] GUI muestra solo huella horizontal (`10x10`…`30x30`), no `x60`.
+- [x] Coste de upgrade proporcional al área horizontal cubierta.
+- [x] Inventario se sincroniza visualmente al upgradear sin cerrar menú.
+- [x] Romper panel mejorado devuelve la mitad del coste acumulado de upgrades.
+- [x] Placement reserva alcance máximo: dos paneles no pueden colocarse tan cerca que luego choquen a `30x30`.
+- [x] Bounds visibles persistentes, sin bordes internos, con esquinas reforzadas tipo beacon.
+- [x] Debug stick reporta owner, nivel, cobertura y límites.
+- [x] Protección por autorización dentro del volumen exacto.
+- [x] Anti-bypass básico: TNT, creepers, lava/fuego, pistones/fluidos contra bloques protegidos.
+- [x] C4 direccional y taladro de raid.
+- [x] Scrap pistol y filtro PvP vanilla.
+- [x] Sleeping bag con cooldown PvP.
+- [x] Docs gate local en `.opencode/skills/minerust-context/SKILL.md`.
 
----
+### Pendiente de confirmar manualmente
 
-## Iteración 4 — "Raiding avanzado" (V1.3)
-
-### Objetivo
-Tener múltiples opciones de raid con diferentes costes/beneficios.
-
-### Features
-1. **Satchel Charge** — Explosivo barato pero inconsistente (puede no explotar)
-2. **Rocket Launcher** — Lanzacohetes
-   - Rocket básico
-   - High Velocity Rocket
-   - Incendiary Rocket
-3. **Explosive 5.56** — Munición explosiva para rifles
-4. **Timed Explosive Charge** — C4 mejorado (nuestro actual es esto)
-5. **Pickaxe raiding** — Romper puertas de madera a picos (muy lento)
-6. **Fire raiding** — Flechas de fuego para quemar puertas de madera
-7. **Raiding balance**
-   - Costes de cada explosivo vs. HP de cada tier de puerta/pared
-   - Tabla de eficiencia visible para jugadores
-
-### QA Gate
-- [ ] Raidar puerta de madera con satchels
-- [ ] Raidar puerta metal con rockets
-- [ ] Comparar coste C4 vs rockets vs satchels para misma puerta
-- [ ] Que fire arrows quemen puerta de madera
+- [ ] Colocar Security Panel y confirmar orientación/modelo/loot.
+- [ ] Confirmar que dos paneles demasiado cercanos fallan desde nivel 1 por reserva máxima 30×30.
+- [ ] Confirmar que dos paneles suficientemente separados pueden subir ambos a nivel 20 sin solaparse.
+- [ ] Confirmar GUI: nivel, área horizontal, coste siguiente, botones y textos.
+- [ ] Confirmar descuento visual inmediato de diamonds/iron al upgradear.
+- [ ] Confirmar refund de media inversión acumulada al romper panel mejorado.
+- [ ] Confirmar bounds visibles coinciden con `10×60×10` y `30×60×30` reales.
+- [ ] Confirmar que fuera del volumen exacto un no autorizado puede construir/romper normal.
+- [ ] Confirmar autorización de un segundo jugador desde menú.
+- [ ] Confirmar protección staff en claim propio, fuera de claim y claim enemigo.
+- [ ] Confirmar C4/taladro contra protegidos y no protegidos.
+- [ ] Confirmar anti-bypass vanilla con TNT, creeper, fuego, lava, pistón y fluidos.
+- [ ] Confirmar PvP vanilla bloqueado y scrap pistol permitido.
+- [ ] Confirmar sleeping bag: PvP usa bag con cooldown, PvE usa vanilla.
 
 ---
 
-## Iteración 5 — "Progresión y economía simple" (V1.4)
+## Histórico de rumbo y decisiones descubiertas
 
-### Objetivo
-Sistema de progresión que obligue a los jugadores a avanzar en tiers.
+| Fecha | Decisión / descubrimiento | Impacto en roadmap | Estado |
+|---|---|---|---|
+| 2026-06-06 | GLTF no se carga directo como block model Forge 1.20.1 sin renderer/loader custom. | Convertir asset TV real a OBJ y documentar licencia CC BY 4.0. | ✅ Hecho |
+| 2026-06-06 | Modelo no cúbico oculta suelo/caras vecinas si usa occlusion normal. | Añadir `.noOcclusion()` al Security Panel. | ✅ Hecho |
+| 2026-06-06 | Tier1/tier2 separados no encajan con el diseño deseado. | Un solo item/bloque `minerust:tool_cupboard` con niveles internos. | ✅ Hecho |
+| 2026-06-06 | Claim por chunk no permite cobertura exacta ni UX clara. | Claims pasan a volumen centrado por posición del panel. | ✅ Hecho |
+| 2026-06-06 | Altura “30 arriba y 30 abajo” generaba 61 bloques totales si se incluía el bloque central simétrico. | Ajustar cálculo a 60 bloques totales y ocultar altura en GUI. | ✅ Hecho |
+| 2026-06-06 | Upgrade descontaba items server-side pero el menú no refrescaba inventario. | Forzar sync/broadcast de inventario tras consumir coste. | ✅ Hecho |
+| 2026-06-06 | Placement por nivel actual permitía paneles que luego colisionaban al upgradear. | Reservar desde placement el alcance máximo 30×30 contra paneles existentes. | ✅ Hecho |
+| 2026-06-06 | Las tareas de código dejaban docs parciales si no había regla explícita. | Endurecer skill local: changelog/roadmap/readme/checklist son parte del cierre. | ✅ Hecho |
 
-### Features
-1. **Workbench tiers** (3 niveles)
-   - Tier 1: armas melee, crossbow, armadura burlap
-   - Tier 2: escopeta, pistol, armadura metal
-   - Tier 3: rifle, rockets, armadura HQ, C4
-   - Sin workbench del tier adecuado, no puedes craftear
-2. **Research Table** — Aprender blueprints
-   - Poner un item en la mesa + scrap → aprendes el blueprint
-   - Una vez aprendido, puedes craftearlo en el workbench adecuado
-3. **Recycler** — Máquina que rompe items en componentes
-   - Metes un arma rota → sacas springs, gears, scrap
-4. **Componentes** (items no crafteables, solo loot)
-   - Semi Body, Rifle Body, SMG Body
-   - Spring, Gear, Pipe, Rope, Sheet Metal
-   - Tech Trash, Targeting Computer
-5. **Scrap** — Moneda de progresión (no es economía de jugadores, es progresión PvE)
-6. **Vending Machine** — Intercambiar items por otros items
-   - Sin moneda, trueque directo
-   - Ejemplo: pones 100 scrap y sacas 1 rifle body
-
-### QA Gate
-- [ ] Intentar craftear rifle sin workbench tier 3 → falla
-- [ ] Colocar workbench tier 3, intentar de nuevo → éxito
-- [ ] Poner item en research table, pagar scrap, aprender blueprint
-- [ ] Meter item en recycler, obtener componentes
-- [ ] Configurar vending machine con oferta, otro jugador compra
+Si aparece una decisión nueva durante implementación o QA, añadir una fila aquí antes de cerrar.
 
 ---
 
-## Iteración 6 — "Mundo y PvE" (V1.5)
+## QA Final Wave V1
 
-### Objetivo
-El mundo no es solo PvP, tiene peligros ambientales y eventos PvE.
+### Preparación
 
-### Features
-1. **Monumentos** (estructuras prefabricadas en el mundo)
-   - Radtown pequeña (casas abandonadas con loot y radiación)
-   - Gas Station
-   - Supermarket
-   - Lighthouse
-   - Warehouse
-2. **Airdrop** — Avión que pasa dejando un paquete con loot bueno
-3. **Chinook** — Helicóptero que deja locked crate (requiere tiempo para abrir)
-4. **Attack Helicopter** — Heli hostil que ataca jugadores con armadura/arma
-5. **Bradley** — Tanque que patrulla monumento militar, dropea loot bueno
-6. **Scientists** — NPCs hostiles en monumentos (con pistolas, se cubren)
-7. **Radiation avanzada** — Necesitas traje hazmat para entrar a monumentos altos
-8. **Hazmat Suit** — Armadura especial contra radiación
-9. **Keycards** — Tarjetas para abrir puertas en monumentos
-   - Green card → abre puerta verde → acceso a blue card
-   - Blue card → acceso a red card
-   - Red card → loot militar
-10. **Animales mejorados** — Osos, lobos más peligrosos, mejor AI
+- [ ] `./gradlew build --no-daemon` → `BUILD SUCCESSFUL`.
+- [ ] `./gradlew runServer --no-daemon` o `./server.sh` arranca sin crash.
+- [ ] `./player1.sh` conecta a localhost.
+- [ ] `./player2.sh` conecta a localhost.
+- [ ] OP/creative configurado para dar items.
+- [ ] Capturas guardadas en `run/screenshots/` para evidencias visuales.
 
-### QA Gate
-- [ ] Visitar radtown, encontrar barrel/crate, lootear
-- [ ] Ver airdrop caer, ir a por él, pelear con otros jugadores
-- [ ] Entrar en monumento con radiación sin hazmat → morir
-- [ ] Equipar hazmat, entrar, sobrevivir
-- [ ] Encontrar green card, usarla en puerta correspondiente
-- [ ] Heli ataca a jugador con armadura metal, no ataca a desnudo
+### Security Panel
 
----
+- [ ] `/give @s minerust:tool_cupboard` entrega un Security Panel con nombre correcto.
+- [ ] Colocación en suelo plano mantiene el bloque y orienta la pantalla hacia el jugador.
+- [ ] Menú abre con click derecho.
+- [ ] Nivel inicial muestra `Level 1/20` y área `10x10`.
+- [ ] Botón upgrade exige coste proporcional y no permite upgrade sin items suficientes.
+- [ ] Upgrade consume items y el inventario visible se actualiza sin cerrar menú.
+- [ ] Nivel máximo muestra `Level 20/20`, área `30x30` y `Next: Max level`.
+- [ ] Romper panel mejorado devuelve item + mitad de recursos acumulados de upgrades.
+- [ ] Placement demasiado cercano muestra mensaje de separación por máximo alcance.
+- [ ] Placement separado permite dos paneles coexistiendo y subir ambos sin colisión.
 
-## Iteración 7 — "Calidad de vida" (V1.6)
+### Claims, visualización y autorización
 
-### Objetivo
-Cosas que no son core pero hacen la experiencia mucho mejor.
+- [ ] `Show/Hide Claim Bounds` activa/desactiva partículas persistentes.
+- [ ] Bounds dibuja un prisma exterior sin líneas internas.
+- [ ] Esquinas cyan/beacon son visibles a distancia razonable.
+- [ ] Debug stick muestra owner, nivel, cobertura, centro del panel y límites X/Z/Y.
+- [ ] No autorizado no puede romper/colocar dentro del volumen exacto.
+- [ ] No autorizado sí puede romper/colocar fuera del volumen exacto.
+- [ ] Owner autoriza Player2 desde menú y Player2 puede construir dentro.
+- [ ] Persistencia: reiniciar servidor conserva panel, owner, nivel, autorizados y claim.
 
-### Features
-1. **Mapa** (UI simple)
-   - Muestra tu posición, chunks claimados, monumentos descubiertos
-   - Marcadores personales
-2. **Equipamiento táctico**
-   - Flashlight (arma con luz)
-   - Lasersight (mejora puntería)
-   - Silenciador (reduce sonido)
-   - Holosight (mira holográfica)
-3. **Comida y agua**
-   - Camping (carne de cerdo/ciervo más comida que vanilla)
-   - Purificar agua
-   - Conservas (latas de comida que no se estropean)
-4. **Sleeping bag mejorado**
-   - Múltiple sleeping bags por jugador
-   - UI para seleccionar en qué bag respawnear
-5. **Boats** — Barcos básicos para navegar
-6. **Horses** — Caballos para moverse rápido
-7. **Heli vendor** — Vendedor que llega en heli y vende items raros
-8. **Mixing Table** — Craftear medicinas avanzadas
+### Protección y raid
 
-### QA Gate
-- [ ] Abrir mapa, ver posición y claims
-- [ ] Craftear flashlight, usar de noche
-- [ ] Respawnear en sleeping bag seleccionado
-- [ ] Montar caballo, moverse rápido
+- [ ] Bastón protege bloque dentro del claim propio y consume material correcto.
+- [ ] Bastón falla fuera de claim con mensaje correcto.
+- [ ] Bastón falla en claim enemigo sin autorización.
+- [ ] Bastón rechaza bedrock/barrier/command blocks.
+- [ ] C4 colocado en claim enemigo daña bloques protegidos adyacentes.
+- [ ] C4 no daña bloques no protegidos.
+- [ ] Taladro aplica daño progresivo y consume durabilidad.
+- [ ] Taladro no daña bloques no protegidos.
+
+### Anti-bypass y PvP
+
+- [ ] TNT vanilla no rompe bloque protegido.
+- [ ] Creeper no rompe bloque protegido.
+- [ ] Lava/fuego no transforma/quema bloque protegido.
+- [ ] Pistón/fluidos no mueven ni reemplazan bloque protegido.
+- [ ] Espada/arco/ballesta/tridente vanilla no dañan otro jugador.
+- [ ] Scrap pistol sí daña otro jugador con cooldown.
+- [ ] Daño indirecto permitido sigue funcionando cuando aplica.
+
+### Sleeping bag
+
+- [ ] Sleeping bag se coloca y renderiza.
+- [ ] Muerte PvP respawnea en bag y activa cooldown.
+- [ ] Morir de nuevo durante cooldown usa respawn vanilla.
+- [ ] Muerte PvE usa respawn vanilla.
 
 ---
 
-## Iteración 8 — "Electricidad y automatización" (V2.0)
+## Deuda técnica / mejoras detectadas
 
-### Objetivo
-Sistema eléctrico completo como en Rust.
-
-### Features
-1. **Generadores**
-   - Wind Turbine (genera electricidad del viento)
-   - Solar Panel (de día)
-   - Small/Large Battery (almacena)
-2. **Componentes eléctricos**
-   - Switch (interruptor manual)
-   - Timer (activa durante X segundos)
-   - Pressure Pad (se activa al pisar)
-   - HBHF Sensor (detecta heat/movement)
-   - Laser Detector (rayo láser que detecta)
-3. **Consumidores**
-   - Auto Turret (ahora requiere electricidad)
-   - SAM Site (anti-aéreo, dispara a heli/avión)
-   - CCTV Camera (ver otras zonas en pantalla)
-   - Door Controller (abre puertas remotamente)
-   - Heater (calefacción para base)
-   - Lights (luces eléctricas)
-4. **Combinadores**
-   - AND, OR, NOT gates
-   - Memory Cell (flip-flop)
-   - Counter (cuenta pulsos)
-
-### QA Gate
-- [ ] Conectar wind turbine → battery → auto turret → funciona
-- [ ] Colocar HBHF sensor, pasar cerca → activa luz
-- [ ] Colocar CCTV, ver otra zona en pantalla
+| Prioridad | Item | Motivo | Confirmación esperada |
+|---|---|---|---|
+| Alta | QA manual Final Wave | Build/smoke no sustituyen jugar escenarios reales. | Checklist V1 completada con capturas. |
+| Alta | Networking packets skeleton | Actualmente algunos handlers son no-op; revisar si todos siguen siendo necesarios. | Decidir: implementar sync real o eliminar packets no usados. |
+| Media | Renombrar semántica interna `tier`→`level` | El campo funciona, pero confunde al leer código. | Refactor seguro manteniendo NBT `tier` por compatibilidad. |
+| Media | Balance de upgrades/upkeep/raid | Costes calculados por área, sin playtesting. | Tabla de balance tras 1-2 sesiones reales. |
+| Media | Modelos sleeping bag/C4 | Algunos modelos siguen simples. | Mejoras visuales sin romper hitbox/placement. |
+| Baja | Mensajes i18n completos | Hay mensajes literales en Java. | Migrar textos visibles a lang files. |
 
 ---
 
-## Reglas de diseño (aplican a todas las iteraciones)
+## Iteraciones futuras
 
-1. **Sin economía de jugadores** — No hay tiendas, monedas, ni NPCs vendedores que compren. Solo trueque directo o vending machines.
-2. **Sin clanes complejos** — Autorización manual por UUID, sin grupos automáticos.
-3. **Sin prefabs** — No convertir bloques vanilla en custom. Minecraft es Minecraft.
-4. **Sin cambiar inventario vanilla** — El jugador gestiona items normalmente.
-5. **Sin dimensiones ni worldgen custom** — Todo en overworld vanilla.
-6. **Server-side first** — Lógica crítica en servidor. Cliente solo para render y UI básica.
-7. **No imports `net.minecraft.client`** en código común.
+### V1.1 — Supervivencia y combate
+
+Objetivo: loop de supervivencia completo: conseguir recursos, craftear armas básicas, curarse y defenderse.
+
+- [ ] Nodos de recursos con drops estilo Rust.
+- [ ] Piedra de mano inicial.
+- [ ] Lanza throwable.
+- [ ] Machete.
+- [ ] Crossbow.
+- [ ] Pipe shotgun.
+- [ ] F1 grenade y beancan grenade.
+- [ ] Bandage y syringe/medkit.
+- [ ] Armaduras: burlap, wood/roadsign, metal, HQ.
+- [ ] Backpacks small/large sin romper inventario vanilla.
+- [ ] Barriles/crates/componentes básicos.
+- [ ] Radiación básica.
+
+QA gate V1.1:
+- [ ] Farmear árbol/roca con herramienta inicial.
+- [ ] Usar lanza, crossbow y shotgun contra mobs/jugadores.
+- [ ] Curarse con bandage/medkit.
+- [ ] Confirmar reducción de daño por armadura.
+- [ ] Lootear barrel/crate.
+- [ ] Entrar en zona radiada sin protección y recibir daño.
+
+### V1.2 — Bases y defensa
+
+- [ ] High external walls.
+- [ ] Gates.
+- [ ] Barricades.
+- [ ] Bear trap.
+- [ ] Landmine.
+- [ ] Shotgun trap.
+- [ ] Auto turret.
+- [ ] Ladders.
+- [ ] Code lock y key lock.
+- [ ] Double doors, garage door, hatch.
+- [ ] Shooting floor pieces.
+
+### V1.3 — Raiding avanzado
+
+- [ ] Satchel charge.
+- [ ] Rocket launcher: basic, HV, incendiary.
+- [ ] Explosive 5.56.
+- [ ] Timed explosive charge balance pass.
+- [ ] Pickaxe/fire raiding para puertas de madera.
+- [ ] Tabla visible de eficiencia de raid.
+
+### V1.4 — Progresión sin economía compleja
+
+Nota: sigue prohibida una economía de jugadores tipo monedas/NPCs compradores. Esta iteración trata progresión PvE/crafting.
+
+- [ ] Workbench tiers.
+- [ ] Research table y blueprints.
+- [ ] Recycler.
+- [ ] Componentes no crafteables.
+- [ ] Scrap como recurso de progresión, no moneda de economía global.
+- [ ] Vending machine con trueque directo.
+
+### V1.5 — Mundo y PvE
+
+- [ ] Monumentos básicos.
+- [ ] Airdrop.
+- [ ] Chinook/locked crate.
+- [ ] Attack helicopter.
+- [ ] Bradley.
+- [ ] Scientists.
+- [ ] Radiación avanzada.
+- [ ] Hazmat suit.
+- [ ] Keycards.
+- [ ] Animales mejorados.
+
+### V1.6 — Calidad de vida
+
+- [ ] Mapa con posición, zonas claimadas y monumentos descubiertos.
+- [ ] Flashlight, lasersight, silenciador, holosight.
+- [ ] Comida/agua.
+- [ ] Sleeping bags múltiples con selección.
+- [ ] Boats.
+- [ ] Horses.
+- [ ] Mixing table.
+
+### V2.0 — Electricidad y automatización
+
+- [ ] Wind turbine / solar panel.
+- [ ] Small/large battery.
+- [ ] Switch, timer, pressure pad.
+- [ ] HBHF sensor, laser detector.
+- [ ] Auto turret eléctrica, SAM site, CCTV, door controller.
+- [ ] AND/OR/NOT, memory cell, counter.
 
 ---
 
-## Prioridad de QA por iteración
+## Reglas de actualización del roadmap
 
-Cada iteración requiere:
-1. `./gradlew build --no-daemon` → BUILD SUCCESSFUL
-2. Test manual mínimo 30 min con `player1.sh` + `player2.sh`
-3. Capturas de pantalla de features nuevas en `run/screenshots/`
-4. Actualizar CHANGELOG.md antes de mergear
-5. Commit claro en git: `feat(iteration-X): descripción`
+- [ ] Cada cambio de comportamiento añade o actualiza checks de QA.
+- [ ] Cada decisión descubierta durante implementación se añade al histórico.
+- [ ] Cada deuda o mejora encontrada se añade a deuda técnica o iteración futura.
+- [ ] Si una feature planificada cambia de rumbo, se actualiza aquí antes de cerrar la tarea.
+- [ ] `CHANGELOG.md`, `README.md` y `CHECKLIST-V1.md` deben quedar sincronizados si el cambio afecta usuario, QA o estado.
 
 ---
 
-## Notas para futuras IAs
+## Reglas de diseño
 
-- Este documento es la fuente de verdad para el roadmap.
-- Nunca saltar una iteración. Completar V1.1 antes de tocar V1.2.
-- Si el usuario pide algo que no está en la iteración actual, anotarlo en "Pendiente" pero no implementar hasta que toque.
-- Siempre actualizar CHANGELOG.md con cada cambio significativo.
-- El repo está en: https://github.com/carmonalanzasalvaro/MineRust
+1. Sin economía compleja de jugadores.
+2. Sin clanes/equipos automáticos; autorización manual por UUID.
+3. Sin prefabs que conviertan Minecraft en otro juego.
+4. Sin cambios al inventario vanilla como contrato base.
+5. Sin dimensiones/worldgen custom en V1.
+6. Lógica crítica server-side; cliente solo para UI/render.
+7. No imports `net.minecraft.client` en código común.
+8. Si una feature rompe algo anterior, se arregla antes de avanzar.
+
+---
+
+## Repo
+
+https://github.com/carmonalanzasalvaro/MineRust

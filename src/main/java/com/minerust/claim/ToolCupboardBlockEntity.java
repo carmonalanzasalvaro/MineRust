@@ -14,7 +14,7 @@ import java.util.UUID;
 public class ToolCupboardBlockEntity extends BlockEntity {
     private UUID owner;
     private final Set<UUID> authorizedPlayers = new HashSet<>();
-    private int tier;
+    private int tier = 1;
     private int woodCount;
     private int stoneCount;
     private int metalCount;
@@ -57,8 +57,12 @@ public class ToolCupboardBlockEntity extends BlockEntity {
     }
 
     public void setTier(int tier) {
-        this.tier = tier;
+        this.tier = ToolCupboardClaimManager.clampLevel(tier);
         setChanged();
+    }
+
+    public void upgradeOneLevel() {
+        setTier(tier + 1);
     }
 
     public int getWoodCount() {
@@ -97,10 +101,6 @@ public class ToolCupboardBlockEntity extends BlockEntity {
         setChanged();
     }
 
-    /**
-     * Atomically consumes resources if all are available.
-     * Returns true if consumption succeeded, false if any resource was insufficient.
-     */
     public boolean tryConsume(int wood, int stone, int metal, int highQuality) {
         if (woodCount < wood || stoneCount < stone || metalCount < metal || highQualityCount < highQuality) {
             return false;
@@ -136,10 +136,8 @@ public class ToolCupboardBlockEntity extends BlockEntity {
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        if (tag.hasUUID("owner")) {
-            owner = tag.getUUID("owner");
-        }
-        tier = tag.getInt("tier");
+        owner = tag.hasUUID("owner") ? tag.getUUID("owner") : null;
+        tier = tag.contains("tier") ? ToolCupboardClaimManager.clampLevel(tag.getInt("tier")) : ToolCupboardClaimManager.getMinLevel();
         woodCount = tag.getInt("woodCount");
         stoneCount = tag.getInt("stoneCount");
         metalCount = tag.getInt("metalCount");

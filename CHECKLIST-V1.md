@@ -5,41 +5,53 @@
 
 ---
 
-## Feature 1: Tool Cupboard (TC)
+## Feature 1: Security Panel (TC/claim controller)
 
 ### 1.1 Colocación básica
-- [ ] Colocar TC tier 1 en suelo plano superflat
-- [ ] El TC **permanece** colocado (no desaparece)
+- [ ] Colocar Security Panel en suelo plano superflat
+- [ ] El Security Panel **permanece** colocado (no desaparece)
 - [ ] Se ve visualmente como un bloque (no invisible, no cubo rosa)
-- [ ] Romper el TC con pico devuelve el item
-- [ ] Colocar TC tier 2 y verificar que también permanece
+- [ ] La pantalla apunta hacia el jugador que lo coloca, no siempre hacia la misma dirección
+- [ ] Romper el Security Panel con pico devuelve el item
+- [ ] Mejorar la cobertura/rango del mismo Security Panel con el coste proporcional mostrado y verificar que también permanece
+- [ ] Tras mejorar la cobertura/rango, el botón/LED rojo del Security Panel cambia a verde
 
 ### 1.2 Overlap / Solapamiento
-- [ ] Colocar TC1 en chunk A → éxito
-- [ ] Intentar colocar OTRO TC1 en chunk A o chunk adyacente dentro del radio → mensaje "overlap" y NO se coloca
-- [ ] Intentar colocar TC1 en chunk lejano (sin overlap) → éxito
-- [ ] Romper TC1 original → el chunk queda libre
-- [ ] Colocar TC1 en el chunk que acabas de liberar → éxito
+- [ ] Colocar Security Panel en una ubicación libre → éxito
+- [ ] Intentar colocar OTRO Security Panel demasiado cerca para alcance máximo 30×30 → mensaje de separación y NO se coloca
+- [ ] Intentar colocar Security Panel lejano (sin overlap de alcance máximo) → éxito
+- [ ] Romper Security Panel original → su zona queda libre
+- [ ] Colocar Security Panel en la zona que acabas de liberar → éxito
 
 ### 1.3 Persistencia
-- [ ] Colocar TC1, salir del servidor, volver a entrar
-- [ ] El TC sigue ahí, el claim sigue activo
+- [ ] Colocar Security Panel, salir del servidor, volver a entrar
+- [ ] El Security Panel sigue ahí, el claim sigue activo
 - [ ] `/give @s minerust:claim_debug_stick`, click derecho → muestra info del claim
 
 ### 1.4 Autorización
-- [ ] Player1 coloca TC1
+- [ ] Player1 coloca Security Panel
 - [ ] Player2 (no autorizado) intenta romper bloque dentro del claim → NO puede
-- [ ] Player1 hace sneak + click derecho en TC con Player2 cerca (5 bloques) → mensaje "Authorized Player2"
+- [ ] Player1 hace sneak + click derecho en Security Panel con Player2 cerca (5 bloques) → mensaje "Authorized Player2"
 - [ ] Player2 ahora puede romper/colocar bloques dentro del claim
 - [ ] Player3 (no autorizado) intenta romper → sigue sin poder
 
 ### 1.5 Visualización de claim
-- [ ] Con claim debug stick, click derecho → muestra:
+- [ ] Click derecho en Security Panel abre menú de opciones (no upgrade directo)
+- [ ] Desde el menú, botón de mejorar cobertura/rango → consume el coste proporcional mostrado y mejora
+- [ ] Tras mejorar desde el menú, el inventario visible actualiza diamonds/iron sin cerrar el panel
+- [ ] Romper un Security Panel mejorado → dropea el panel y la mitad de los recursos acumulados de upgrades
+- [ ] Intentar colocar otro Security Panel demasiado cerca → falla aunque ambos estén en nivel 1, porque se reserva el alcance máximo 30×30
+- [ ] Colocar dos Security Panels con al menos 30 bloques de separación horizontal útil → permite que ambos puedan llegar a cobertura máxima sin solaparse
+- [ ] Desde el menú, botón Show/Hide Claim Bounds → activa/desactiva límites persistentes mientras construyes
+- [ ] Con límites activados, muestra:
   - Owner UUID
-  - Tier
-  - Centro del chunk
-  - Chunks cubiertos (min/max)
-- [ ] Partículas END_ROD visibles en bordes de chunks claimados
+  - Cobertura / rango
+  - Centro del panel
+  - Límites cubiertos X/Z e Y
+- [ ] Partículas END_ROD visibles solo en los límites exteriores del claim, sin bordes internos
+- [ ] Nivel 1 limita construcción/protección a 10×60×10 bloques centrados en el Security Panel
+- [ ] Nivel 20 limita construcción/protección a 30×60×30 bloques centrados en el Security Panel
+- [ ] Fuera del volumen exacto del claim, un jugador no autorizado puede construir como fuera del claim
 
 ---
 
@@ -49,7 +61,7 @@
 - [ ] Dentro de un claim tuyo, usar bastón en un bloque de stone → aplica tier STRAW
 - [ ] Shift + click derecho con bastón → cambia tier (STRAW → WOOD → STONE → METAL → HQ)
 - [ ] Aplicar tier WOOD a stone → consume planks del inventario (si no creative)
-- [ ] Intentar aplicar fuera de claim → mensaje "No Tool Cupboard claim covers this block"
+- [ ] Intentar aplicar fuera de claim → mensaje "No Security Panel claim covers this block"
 - [ ] Intentar aplicar en claim enemigo → mensaje "You must be the owner or authorized"
 
 ### 2.2 Anti-bedrock
@@ -183,18 +195,41 @@
 ## Feature 9: Claim Debug Stick
 
 - [ ] Click derecho en aire → muestra info del claim actual (o "No claim")
-- [ ] Partículas visibles en bordes de chunks claimados
-- [ ] Info correcta: owner, tier, chunks cubiertos
+- [ ] Partículas visibles en bordes del volumen claimado
+- [ ] Info correcta: owner, nivel, cobertura y límites cubiertos
 
 ---
 
 ## Estado Global
 
-- [ ] `./gradlew build --no-daemon` → BUILD SUCCESSFUL
-- [ ] Sin errores en consola del servidor
-- [ ] Sin errores en consola del cliente
-- [ ] Server.properties: `online-mode=false`, `enforce-secure-profile=false`
+- [x] `./gradlew build --no-daemon` → BUILD SUCCESSFUL (2026-06-06)
+- [x] Sin errores en consola del servidor
+- [x] Sin errores en consola del cliente (crash anterior de claim_debug_stick NO se reproduce)
+- [x] Server.properties: `online-mode=false`, `enforce-secure-profile=false`
 - [ ] Ops configurados para testing
+
+### QA Automatizado Completado (Agente)
+
+**Build y recursos:**
+- ✅ Build pasa sin errores
+- ✅ No hay referencias a `tool_cupboard_tier1` ni `tool_cupboard_tier2` en código Java ni recursos
+- ✅ Modelo importado desde el GLTF real mediante Forge OBJ (`loader: forge:obj`), no recreado a mano
+- ✅ Blockstate, recipe, loot table y lang files verificados
+- ✅ Textura original 128x128 PNG válida; alpha 0 convertido a opaco para evitar caras/suelo invisibles
+- ✅ `ModBlocks.TOOL_CUPBOARD` usa `.noOcclusion()` para que el modelo no cúbico no esconda suelo/caras vecinas
+- ✅ Cliente carga textures en atlas sin errores de modelo
+
+**Code Review:**
+- ✅ ToolCupboardBlock: overlap check con reserva máxima en placement, upgrade por nivel, coste proporcional, refund parcial y mensajes al jugador correctos
+- ✅ ToolCupboardBlockEntity: level clamp 1-20, persistencia NBT, owner/auth players
+- ✅ ToolCupboardClaimManager: register/update/remove/wouldOverlap lógica correcta. Nivel 1 = 10×60×10 bloques centrados, Nivel 20 = 30×60×30 bloques centrados
+- ✅ ClaimDebugStickItem: reporta owner, nivel, cobertura y límites cubiertos. Partículas END_ROD en bordes
+- ✅ ClaimProtectionEvents: overlap prevention en place event, protección de bloques, anti-bypass (TNT, fuego, lava, pistones)
+
+**Notas de implementación:**
+- El campo interno `tier` sigue existiendo como nivel interno 1-20. El jugador ve "coverage upgrade" no "tier 2 panel"
+- Upgrade fall-safe: si `updateClaimTier` devuelve false, hace rollback a tier 1
+- Fix aplicado: crash `NullPointerException: Registry Object not present: minerust:claim_debug_stick` resuelto (ModCreativeTabs ahora referencia correctamente)
 
 ---
 
@@ -204,6 +239,6 @@
 2. Terminal 2: `cd /home/alvaro/MineRust && ./player1.sh`
 3. (Opcional) Terminal 3: `cd /home/alvaro/MineRust && ./player2.sh`
 4. En Minecraft: Multiplayer → Direct Connect → `localhost`
-5. Usar comandos OP para darte items: `/give @s minerust:tool_cupboard_tier1`, etc.
+5. Usar comandos OP para darte items: `/give @s minerust:tool_cupboard`, etc.
 6. Screenshot (F2) de cada feature que funcione
 7. Reportar fallos con: qué esperabas, qué pasó, screenshot si aplica

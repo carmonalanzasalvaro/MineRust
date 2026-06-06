@@ -17,8 +17,7 @@ public class ModCreativeTabs {
                     .icon(() -> new ItemStack(ModItems.SCRAP_PISTOL.get()))
                     .title(Component.translatable("itemGroup.minerust"))
                     .displayItems((params, output) -> {
-                        output.accept(ModItems.TOOL_CUPBOARD_TIER1.get());
-                        output.accept(ModItems.TOOL_CUPBOARD_TIER2.get());
+                        output.accept(ModItems.TOOL_CUPBOARD.get());
                         output.accept(ModItems.SLEEPING_BAG.get());
                         output.accept(ModItems.C4_CHARGE.get());
                         output.accept(ModItems.PROTECTION_STAFF.get());

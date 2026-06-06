@@ -15,11 +15,8 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, MineRustMod.MODID);
 
-    public static final RegistryObject<Block> TOOL_CUPBOARD_TIER1 = BLOCKS.register("tool_cupboard_tier1",
-            () -> new ToolCupboardBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).strength(2.0f, 3.0f), 1));
-
-    public static final RegistryObject<Block> TOOL_CUPBOARD_TIER2 = BLOCKS.register("tool_cupboard_tier2",
-            () -> new ToolCupboardBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).strength(2.0f, 3.0f), 2));
+    public static final RegistryObject<Block> TOOL_CUPBOARD = BLOCKS.register("tool_cupboard",
+            () -> new ToolCupboardBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).strength(2.0f, 3.0f).noOcclusion()));
 
     public static final RegistryObject<Block> SLEEPING_BAG = BLOCKS.register("sleeping_bag",
             () -> new SleepingBagBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));

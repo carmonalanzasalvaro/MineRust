@@ -1,8 +1,9 @@
 package com.minerust.item;
 
-import com.minerust.Config;
+import com.minerust.claim.ToolCupboardClaimManager;
 import com.minerust.data.ClaimSavedData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -12,9 +13,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.particles.ParticleTypes;
+import org.joml.Vector3f;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ClaimDebugStickItem extends Item {
     private static final int SCAN_RADIUS_CHUNKS = 5;
+    private static final DustParticleOptions CORNER_BEAM_PARTICLE = new DustParticleOptions(new Vector3f(0.15F, 0.85F, 1.00F), 2.8F);
 
     public ClaimDebugStickItem(Properties properties) {
         super(properties);
@@ -29,27 +35,24 @@ public class ClaimDebugStickItem extends Item {
 
         ServerLevel serverLevel = (ServerLevel) level;
         String dimension = serverLevel.dimension().location().toString();
-        int currentChunkX = player.blockPosition().getX() >> 4;
-        int currentChunkZ = player.blockPosition().getZ() >> 4;
+        BlockPos playerPos = player.blockPosition();
 
-        ClaimSavedData data = ClaimSavedData.get(serverLevel);
-        ClaimSavedData.ToolCupboardData claim = data.getClaimAtChunk(dimension, currentChunkX, currentChunkZ);
+        ClaimSavedData.ToolCupboardData claim = ToolCupboardClaimManager.getClaimAt(serverLevel, playerPos);
 
         if (claim == null) {
-            player.displayClientMessage(Component.literal("No Tool Cupboard claim covers this chunk."), false);
+            player.displayClientMessage(Component.literal("No Security Panel claim covers this block."), false);
         } else {
-            int radius = getClaimRadius(claim.getTier());
-            int minChunkX = claim.getChunkX() - radius;
-            int minChunkZ = claim.getChunkZ() - radius;
-            int maxChunkX = claim.getChunkX() + radius;
-            int maxChunkZ = claim.getChunkZ() + radius;
+            BlockPos center = BlockPos.of(claim.getTcPackedPos());
+            ToolCupboardClaimManager.ClaimBounds bounds = ToolCupboardClaimManager.getBounds(claim);
 
-            player.displayClientMessage(Component.literal("Tool Cupboard claim found:"), false);
+            player.displayClientMessage(Component.literal("Security Panel claim found:"), false);
             player.displayClientMessage(Component.literal("Owner UUID: " + claim.getOwner()), false);
-            player.displayClientMessage(Component.literal("Tier: " + claim.getTier()), false);
-            player.displayClientMessage(Component.literal("TC center chunk: " + claim.getChunkX() + ", " + claim.getChunkZ()), false);
-            player.displayClientMessage(Component.literal("Current chunk: " + currentChunkX + ", " + currentChunkZ), false);
-            player.displayClientMessage(Component.literal("Covered chunks: " + minChunkX + ", " + minChunkZ + " -> " + maxChunkX + ", " + maxChunkZ), false);
+            player.displayClientMessage(Component.literal("Level: " + ToolCupboardClaimManager.clampLevel(claim.getTier()) + "/" + ToolCupboardClaimManager.getMaxLevel()), false);
+            player.displayClientMessage(Component.literal("Coverage: " + bounds.sizeX() + "x" + bounds.sizeY() + "x" + bounds.sizeZ() + " blocks"), false);
+            player.displayClientMessage(Component.literal("Panel center: " + center.getX() + ", " + center.getY() + ", " + center.getZ()), false);
+            player.displayClientMessage(Component.literal("Current block: " + playerPos.getX() + ", " + playerPos.getY() + ", " + playerPos.getZ()), false);
+            player.displayClientMessage(Component.literal("Covered X/Z: " + bounds.minX() + ", " + bounds.minZ() + " -> " + bounds.maxX() + ", " + bounds.maxZ()), false);
+            player.displayClientMessage(Component.literal("Covered Y: " + bounds.minY() + " -> " + bounds.maxY()), false);
         }
 
         outlineNearbyClaims(serverLevel, player, dimension);
@@ -58,43 +61,73 @@ public class ClaimDebugStickItem extends Item {
 
     private static void outlineNearbyClaims(ServerLevel level, Player player, String dimension) {
         ClaimSavedData data = ClaimSavedData.get(level);
-        int playerChunkX = player.blockPosition().getX() >> 4;
-        int playerChunkZ = player.blockPosition().getZ() >> 4;
-        double particleY = player.getY() + 1.0D;
+        Set<Long> outlinedClaims = new HashSet<>();
 
-        for (int dx = -SCAN_RADIUS_CHUNKS; dx <= SCAN_RADIUS_CHUNKS; dx++) {
-            for (int dz = -SCAN_RADIUS_CHUNKS; dz <= SCAN_RADIUS_CHUNKS; dz++) {
-                int chunkX = playerChunkX + dx;
-                int chunkZ = playerChunkZ + dz;
-                if (data.getClaimAtChunk(dimension, chunkX, chunkZ) == null) {
-                    continue;
-                }
-
-                outlineChunk(level, chunkX, chunkZ, particleY);
+        for (ClaimSavedData.ToolCupboardData claim : data.getClaims(dimension)) {
+            BlockPos center = BlockPos.of(claim.getTcPackedPos());
+            if (Math.abs(center.getX() - player.getBlockX()) > SCAN_RADIUS_CHUNKS * 16
+                    || Math.abs(center.getZ() - player.getBlockZ()) > SCAN_RADIUS_CHUNKS * 16) {
+                continue;
             }
+            if (!outlinedClaims.add(claim.getTcPackedPos())) {
+                continue;
+            }
+
+            outlineClaimVolume(level, claim);
         }
     }
 
-    private static void outlineChunk(ServerLevel level, int chunkX, int chunkZ, double y) {
-        double minX = chunkX * 16.0D;
-        double minZ = chunkZ * 16.0D;
-        double maxX = minX + 16.0D;
-        double maxZ = minZ + 16.0D;
+    private static void outlineClaimVolume(ServerLevel level, ClaimSavedData.ToolCupboardData claim) {
+        ToolCupboardClaimManager.ClaimBounds bounds = ToolCupboardClaimManager.getBounds(claim);
+        double minX = bounds.minX();
+        double minY = bounds.minY();
+        double minZ = bounds.minZ();
+        double maxX = bounds.maxX() + 1.0D;
+        double maxY = bounds.maxY() + 1.0D;
+        double maxZ = bounds.maxZ() + 1.0D;
 
-        for (int offset = 0; offset <= 16; offset += 2) {
-            double x = minX + offset;
-            double z = minZ + offset;
+        for (double x = minX; x <= maxX; x += 2.0D) {
+            particle(level, x, minY, minZ);
+            particle(level, x, minY, maxZ);
+            particle(level, x, maxY, minZ);
+            particle(level, x, maxY, maxZ);
+        }
+        for (double z = minZ; z <= maxZ; z += 2.0D) {
+            particle(level, minX, minY, z);
+            particle(level, maxX, minY, z);
+            particle(level, minX, maxY, z);
+            particle(level, maxX, maxY, z);
+        }
+        for (double y = minY; y <= maxY; y += 2.0D) {
+            particle(level, minX, y, minZ);
+            particle(level, maxX, y, minZ);
+            particle(level, minX, y, maxZ);
+            particle(level, maxX, y, maxZ);
+        }
 
-            for (double h = 0; h < 3; h += 1.0D) {
-                level.sendParticles(ParticleTypes.END_ROD, x, y + h, minZ, 1, 0.0D, 0.0D, 0.0D, 0.0D);
-                level.sendParticles(ParticleTypes.END_ROD, x, y + h, maxZ, 1, 0.0D, 0.0D, 0.0D, 0.0D);
-                level.sendParticles(ParticleTypes.END_ROD, minX, y + h, z, 1, 0.0D, 0.0D, 0.0D, 0.0D);
-                level.sendParticles(ParticleTypes.END_ROD, maxX, y + h, z, 1, 0.0D, 0.0D, 0.0D, 0.0D);
-            }
+        cornerBeam(level, minX, minY, minZ, maxY);
+        cornerBeam(level, maxX, minY, minZ, maxY);
+        cornerBeam(level, minX, minY, maxZ, maxY);
+        cornerBeam(level, maxX, minY, maxZ, maxY);
+    }
+
+    private static void particle(ServerLevel level, double x, double y, double z) {
+        level.sendParticles(ParticleTypes.END_ROD, x, y, z, 1, 0.0D, 0.0D, 0.0D, 0.0D);
+    }
+
+    private static void cornerBeam(ServerLevel level, double x, double minY, double z, double maxY) {
+        for (double y = minY; y <= maxY; y += 1.0D) {
+            beamParticle(level, x, y, z);
+            beamParticle(level, x + 0.18D, y, z);
+            beamParticle(level, x - 0.18D, y, z);
+            beamParticle(level, x, y, z + 0.18D);
+            beamParticle(level, x, y, z - 0.18D);
+            level.sendParticles(ParticleTypes.END_ROD, x, y, z, 1, 0.0D, 0.04D, 0.0D, 0.0D);
         }
     }
 
-    private static int getClaimRadius(int tier) {
-        return tier == 1 ? Config.TC_TIER1_CHUNK_RADIUS : Config.TC_TIER2_CHUNK_RADIUS;
+    private static void beamParticle(ServerLevel level, double x, double y, double z) {
+        level.sendParticles(CORNER_BEAM_PARTICLE, x, y, z, 1, 0.0D, 0.0D, 0.0D, 0.0D);
     }
+
 }

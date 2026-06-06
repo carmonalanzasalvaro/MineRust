@@ -3,6 +3,7 @@ package com.minerust.events;
 import com.minerust.Config;
 import com.minerust.MineRustMod;
 import com.minerust.claim.ToolCupboardBlock;
+import com.minerust.claim.ToolCupboardBlockEntity;
 import com.minerust.claim.ToolCupboardClaimManager;
 import com.minerust.data.ClaimSavedData;
 import com.minerust.registry.ModBlocks;
@@ -18,7 +19,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.piston.PistonStructureResolver;
 import net.minecraftforge.event.TickEvent;
@@ -45,13 +45,18 @@ public class ClaimProtectionEvents {
         Player player = event.getPlayer();
         BlockPos pos = event.getPos();
 
-        if (event.getState().getBlock() instanceof ToolCupboardBlock tcBlock) {
+        if (event.getState().getBlock() instanceof ToolCupboardBlock) {
             if (!ToolCupboardClaimManager.isAuthorized(level, pos, player.getUUID())) {
-                player.displayClientMessage(Component.literal("You are not authorized to interact with this Tool Cupboard."), true);
+                player.displayClientMessage(Component.literal("You are not authorized to interact with this Security Panel."), true);
                 event.setCanceled(true);
                 return;
             }
-            ToolCupboardClaimManager.removeClaim(level, pos, tcBlock.getTier());
+            int tier = level.getBlockEntity(pos) instanceof ToolCupboardBlockEntity be ? be.getTier() : 1;
+            ClaimSavedData.ToolCupboardData claim = ToolCupboardClaimManager.getClaimAt(level, pos);
+            if (claim != null && claim.getTcPackedPos() == pos.asLong()) {
+                tier = claim.getTier();
+            }
+            ToolCupboardClaimManager.removeClaim(level, pos, tier);
             return;
         }
 
@@ -81,12 +86,12 @@ public class ClaimProtectionEvents {
             return;
         }
 
-        if (event.getPlacedBlock().getBlock() instanceof ToolCupboardBlock tcBlock) {
-            if (ToolCupboardClaimManager.wouldOverlap(level, pos, tcBlock.getTier(), pos)) {
-                ToolCupboardClaimManager.removeClaim(level, pos, tcBlock.getTier());
+        if (event.getPlacedBlock().getBlock() instanceof ToolCupboardBlock) {
+            boolean registered = level.getBlockEntity(pos) instanceof ToolCupboardBlockEntity be && be.getOwner() != null;
+            if (!registered || ToolCupboardClaimManager.wouldOverlapMaxCoverage(level, pos, pos)) {
                 event.setCanceled(true);
                 player.displayClientMessage(
-                    Component.literal("This area overlaps an existing Tool Cupboard claim."),
+                    Component.literal("Security Panels need enough space for max coverage: keep at least 30 blocks between panels."),
                     true
                 );
                 return;
@@ -123,6 +128,9 @@ public class ClaimProtectionEvents {
         }
 
         if (!ToolCupboardClaimManager.isAuthorized(level, pos, player.getUUID())) {
+            if (level.getBlockState(pos).getBlock() instanceof ToolCupboardBlock) {
+                player.displayClientMessage(Component.literal("You are not authorized to interact with this Security Panel."), true);
+            }
             event.setCanceled(true);
         }
     }

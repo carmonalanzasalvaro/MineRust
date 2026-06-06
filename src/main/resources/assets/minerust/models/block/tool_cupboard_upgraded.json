@@ -1,0 +1,13 @@
+{
+  "credit": "Forge OBJ import converted from Sketchfab 'minecraft TV model' by DPancito (CC BY 4.0) (upgraded green status texture)",
+  "loader": "forge:obj",
+  "model": "minerust:models/block/tool_cupboard.obj",
+  "automatic_culling": false,
+  "shade_quads": true,
+  "flip_v": true,
+  "emissive_ambient": false,
+  "textures": {
+    "particle": "minerust:block/tool_cupboard"
+  },
+  "mtl_override": "minerust:models/block/tool_cupboard_upgraded.mtl"
+}

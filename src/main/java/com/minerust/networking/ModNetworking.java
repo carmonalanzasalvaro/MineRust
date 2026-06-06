@@ -3,6 +3,7 @@ package com.minerust.networking;
 import com.minerust.MineRustMod;
 import com.minerust.networking.packet.SyncBlockProtectionPacket;
 import com.minerust.networking.packet.SyncPlayerCooldownsPacket;
+import com.minerust.networking.packet.SyncSecurityPanelMenuPacket;
 import com.minerust.networking.packet.SyncToolCupboardDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
@@ -48,6 +49,14 @@ public class ModNetworking {
                 SyncPlayerCooldownsPacket::encode,
                 SyncPlayerCooldownsPacket::decode,
                 SyncPlayerCooldownsPacket::handle
+        );
+
+        CHANNEL.registerMessage(
+                nextId(),
+                SyncSecurityPanelMenuPacket.class,
+                SyncSecurityPanelMenuPacket::encode,
+                SyncSecurityPanelMenuPacket::decode,
+                SyncSecurityPanelMenuPacket::handle
         );
     }
 }

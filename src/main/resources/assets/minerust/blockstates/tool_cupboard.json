@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,upgraded=false": { "model": "minerust:block/tool_cupboard", "y": 270 },
+    "facing=east,upgraded=false": { "model": "minerust:block/tool_cupboard" },
+    "facing=south,upgraded=false": { "model": "minerust:block/tool_cupboard", "y": 90 },
+    "facing=west,upgraded=false": { "model": "minerust:block/tool_cupboard", "y": 180 },
+    "facing=north,upgraded=true": { "model": "minerust:block/tool_cupboard_upgraded", "y": 270 },
+    "facing=east,upgraded=true": { "model": "minerust:block/tool_cupboard_upgraded" },
+    "facing=south,upgraded=true": { "model": "minerust:block/tool_cupboard_upgraded", "y": 90 },
+    "facing=west,upgraded=true": { "model": "minerust:block/tool_cupboard_upgraded", "y": 180 }
+  }
+}

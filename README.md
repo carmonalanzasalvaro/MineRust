@@ -1,6 +1,6 @@
 # MineRust V1
 
-Mod de Minecraft 1.20.1 (Forge 47.3.0) inspirado en Rust: claims de terreno con Tool Cupboard, raideos con C4 y taladro, tiers de protección por bloque, filtro PvP y sleeping bag para respawn.
+Mod de Minecraft 1.20.1 (Forge 47.3.0) inspirado en Rust: claims de terreno con Security Panel (TC/claim controller), raideos con C4 y taladro, tiers de protección por bloque, filtro PvP y sleeping bag para respawn.
 
 **Versión actual:** V1 (feature-complete, pendiente de QA manual Final Wave).
 
@@ -8,7 +8,7 @@ Mod de Minecraft 1.20.1 (Forge 47.3.0) inspirado en Rust: claims de terreno con 
 
 ## Visión general
 
-MineRust añade a Minecraft un sistema de protección territorial al estilo Rust, sin prefabs ni restricciones de inventario vanilla. Los jugadores colocan un **Tool Cupboard (TC)** para reclamar chunks, usan un **bastón de protección** para reforzar bloques individuales con tiers (STRAW → WOOD → STONE → METAL → HQ), y deben mantener el TC con recursos para evitar la degradación. Los rivales pueden atacar con **C4** o un **taladro de raid**, pero las armas y explosiones vanilla están limitadas por diseño.
+MineRust añade a Minecraft un sistema de protección territorial al estilo Rust, sin prefabs ni restricciones de inventario vanilla. Los jugadores colocan un **Security Panel / Panel de Seguridad** para reclamar un volumen centrado en el panel, pueden subirlo de nivel para ampliar su cobertura/rango, usan un **bastón de protección** para reforzar bloques individuales con tiers (STRAW → WOOD → STONE → METAL → HQ), y deben mantener el Security Panel con recursos para evitar la degradación. Los rivales pueden atacar con **C4** o un **taladro de raid**, pero las armas y explosiones vanilla están limitadas por diseño.
 
 ### Diseño restringido (V1)
 - **Sin economía**: no hay tiendas, monedas ni NPCs.
@@ -23,7 +23,7 @@ MineRust añade a Minecraft un sistema de protección territorial al estilo Rust
 
 | Sistema | Descripción |
 |---------|-------------|
-| Tool Cupboard (2 tiers) | Tier 1 protege 1 chunk; tier 2 protege 3×3 chunks. |
+| Security Panel | Protege un volumen centrado en el panel: nivel 1 cubre 10×60×10 bloques y puede subir hasta nivel 20 con 30×60×30 bloques. En el panel se muestra solo la huella horizontal, hasta 30×30. Los paneles deben colocarse con espacio suficiente para el alcance máximo desde el inicio, evitando solapes futuros. Al romper un panel mejorado devuelve la mitad de los recursos acumulados de upgrade. (Internal ID: `minerust:tool_cupboard`) |
 | Autorización manual | Owner añade UUIDs autorizados; no hay clanes. |
 | Upkeep y decay | El TC consume recursos según bloques protegidos; si falla, los bloques bajan de tier progresivamente hasta STRAW y luego pierden HP. |
 | Bastón de protección | Aplica tiers STRAW/WOOD/STONE/METAL/HQ a bloques individuales dentro del claim, consumiendo material del inventario. |
@@ -40,10 +40,10 @@ MineRust añade a Minecraft un sistema de protección territorial al estilo Rust
 
 ## Gameplay loop (V1)
 
-1. **Craftear** un Tool Cupboard tier 1 y colocarlo en tu base.
-2. **Autorizar** a tus aliados manualmente (interactuando con el TC).
+1. **Craftear** un Security Panel y colocarlo en tu base.
+2. **Autorizar** a tus aliados manualmente (interactuando con el Security Panel).
 3. **Proteger** bloques importantes con el bastón, eligiendo tier según material disponible.
-4. **Mantener** recursos en el TC para que el upkeep no degrade tus defensas.
+4. **Mantener** recursos en el Security Panel para que el upkeep no degrade tus defensas.
 5. **Atacar** bases enemigas con C4 (daño en área) o taladro (daño sostenido).
 6. **PvP** usando la scrap pistol; las armas vanilla están deshabilitadas entre jugadores.
 7. **Colocar** un sleeping bag para respawnar cerca tras morir en PvP.
@@ -137,11 +137,12 @@ Esta checklist debe ejecutarse manualmente antes de dar V1 por terminada. **No m
 ### Build automatizado
 - [ ] `./gradlew build --no-daemon` → `BUILD SUCCESSFUL`
 
-### Tool Cupboard y autorización
-- [ ] Colocar TC tier 1; al romperlo dropea el item.
-- [ ] Reiniciar servidor; TC y claim persisten.
-- [ ] Jugador autorizado puede romper/colocar bloques dentro del claim.
-- [ ] Jugador no autorizado NO puede romper ni colocar bloques.
+### Security Panel y autorización
+- [ ] Colocar Security Panel; al romperlo dropea el item.
+- [ ] Reiniciar servidor; Security Panel y claim persisten.
+- [ ] Jugador autorizado puede romper/colocar bloques dentro del volumen del claim.
+- [ ] Jugador no autorizado NO puede romper ni colocar bloques dentro del volumen del claim.
+- [ ] Fuera del volumen centrado del nivel actual, el mundo se comporta como fuera del claim.
 
 ### Bastón de protección
 - [ ] Bastón aplica tier WOOD a stone dentro del claim (consume planks).
@@ -202,12 +203,13 @@ Esta checklist debe ejecutarse manualmente antes de dar V1 por terminada. **No m
 ## Workflow para agentes futuros
 
 1. **Leer este README** para entender el estado actual y las reglas de diseño.
-2. **Revisar `.omo/plans/minerust-master-plan.md`** para ver qué tareas están completas y cuál es la siguiente.
+2. **Revisar `ROADMAP.md`** como dashboard principal: estado actual, checks pendientes, histórico de decisiones, deuda técnica e iteraciones futuras.
 3. **Consultar notepads** en `.omo/notepads/minerust-master-plan/` antes de preguntar por decisiones o problemas históricos.
 4. **Ejecutar `./gradlew build --no-daemon`** tras cualquier cambio Java o recursos.
-5. **No introducir TODO/FIXME/HACK/xxx** en código Java de producción; documenta futuras mejoras en notepads o issues.
-6. **No modificar reglas de diseño** (no economía, no clanes, no prefabs, no inventario vanilla, no dimensiones) sin aprobación explícita.
-7. **Si necesitas debuggear**: usa `./gradlew runServer --no-daemon` y conecta un cliente con `./gradlew runClient --no-daemon`; el código es server-side puro salvo assets.
+5. **Actualizar documentación antes de cerrar cualquier cambio**: `CHANGELOG.md` siempre que cambie comportamiento/código, `ROADMAP.md` si cambia estado/alcance/decisiones/deuda/QA, `CHECKLIST-V1.md` si cambia QA esperada, y `README.md` si cambia comportamiento visible o workflow.
+6. **No introducir TODO/FIXME/HACK/xxx** en código Java de producción; documenta futuras mejoras en notepads o issues.
+7. **No modificar reglas de diseño** (no economía, no clanes, no prefabs, no inventario vanilla, no dimensiones) sin aprobación explícita.
+8. **Si necesitas debuggear**: usa `./gradlew runServer --no-daemon` y conecta un cliente con `./gradlew runClient --no-daemon`; el código es server-side puro salvo assets.
 
 ---
 

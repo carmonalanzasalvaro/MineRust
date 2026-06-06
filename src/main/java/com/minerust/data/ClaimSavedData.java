@@ -3,7 +3,6 @@ package com.minerust.data;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -20,10 +19,6 @@ public class ClaimSavedData extends SavedData {
 
     // --- Data stores ---
 
-    /**
-     * Tool cupboard claims keyed by dimension ResourceLocation string,
-     * then by packed chunk position (chunkX, chunkZ).
-     */
     private final Map<String, Map<Long, ToolCupboardData>> claimsByDimension = new HashMap<>();
 
     /**
@@ -77,10 +72,28 @@ public class ClaimSavedData extends SavedData {
         setDirty();
     }
 
+    public void addClaim(String dimension, ToolCupboardData data) {
+        claimsByDimension
+            .computeIfAbsent(dimension, k -> new HashMap<>())
+            .put(data.getTcPackedPos(), data);
+        setDirty();
+    }
+
     public void removeClaim(String dimension, int chunkX, int chunkZ) {
         Map<Long, ToolCupboardData> dimClaims = claimsByDimension.get(dimension);
         if (dimClaims != null) {
             dimClaims.remove(packChunk(chunkX, chunkZ));
+            if (dimClaims.isEmpty()) {
+                claimsByDimension.remove(dimension);
+            }
+            setDirty();
+        }
+    }
+
+    public void removeClaim(String dimension, long tcPackedPos) {
+        Map<Long, ToolCupboardData> dimClaims = claimsByDimension.get(dimension);
+        if (dimClaims != null) {
+            dimClaims.remove(tcPackedPos);
             if (dimClaims.isEmpty()) {
                 claimsByDimension.remove(dimension);
             }
@@ -132,6 +145,14 @@ public class ClaimSavedData extends SavedData {
         return dimClaims.get(packChunk(chunkX, chunkZ));
     }
 
+    public Collection<ToolCupboardData> getClaims(String dimension) {
+        Map<Long, ToolCupboardData> dimClaims = claimsByDimension.get(dimension);
+        if (dimClaims == null) {
+            return Collections.emptyList();
+        }
+        return dimClaims.values();
+    }
+
     // --- Serialization ---
 
     @Override
@@ -158,14 +179,6 @@ public class ClaimSavedData extends SavedData {
 
     private static long packChunk(int x, int z) {
         return ((long) x << 32) | (z & 0xFFFFFFFFL);
-    }
-
-    private static int unpackChunkX(long packed) {
-        return (int) (packed >> 32);
-    }
-
-    private static int unpackChunkZ(long packed) {
-        return (int) packed;
     }
 
     // --- Serialize / Deserialize claims ---
@@ -199,7 +212,8 @@ public class ClaimSavedData extends SavedData {
                 CompoundTag chunkTag = chunkList.getCompound(j);
                 long packedChunk = chunkTag.getLong("packedChunk");
                 ToolCupboardData data = ToolCupboardData.deserialize(chunkTag.getCompound("data"));
-                dimMap.put(packedChunk, data);
+                long key = data.getTcPackedPos() != 0L ? data.getTcPackedPos() : packedChunk;
+                dimMap.put(key, data);
             }
             claimsByDimension.put(dimension, dimMap);
         }
