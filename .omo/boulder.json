@@ -1,0 +1,445 @@
+{
+  "schema_version": 2,
+  "active_work_id": "minerust-master-plan-9613c906",
+  "works": {
+    "minerust-master-plan-9613c906": {
+      "work_id": "minerust-master-plan-9613c906",
+      "active_plan": "/home/alvaro/MineRust/.omo/plans/minerust-master-plan.md",
+      "plan_name": "minerust-master-plan",
+      "status": "completed",
+      "started_at": "2026-06-06T01:03:08.136Z",
+      "updated_at": "2026-06-06T03:57:08.873Z",
+      "session_ids": [
+        "opencode:ses_165a4f5d5ffeQGEQ9I2yKpUIRC",
+        "opencode:ses_1658a7762ffejpI2UyifeMS3av",
+        "opencode:ses_1658a47f4ffe5igrcFIpKwkUNB"
+      ],
+      "session_origins": {
+        "opencode:ses_165a4f5d5ffeQGEQ9I2yKpUIRC": "direct",
+        "opencode:ses_1658a7762ffejpI2UyifeMS3av": "appended",
+        "opencode:ses_1658a47f4ffe5igrcFIpKwkUNB": "appended"
+      },
+      "agent": "atlas",
+      "task_sessions": {
+        "todo:1": {
+          "task_key": "todo:1",
+          "task_label": "1",
+          "task_title": "Setup DeferredRegister para Blocks, Items, BlockEntities",
+          "session_id": "opencode:ses_16583d2b3ffemE41F5XNgrvJts",
+          "agent": "general",
+          "category": "",
+          "started_at": "2026-06-06T01:09:58.053Z",
+          "status": "running",
+          "updated_at": "2026-06-06T01:12:34.285Z"
+        },
+        "todo:2": {
+          "task_key": "todo:2",
+          "task_label": "2",
+          "task_title": "Setup SimpleChannel Networking",
+          "session_id": "opencode:ses_165816288ffeupN7bWdONCEtIr",
+          "agent": "general",
+          "category": "",
+          "started_at": "2026-06-06T01:15:36.149Z",
+          "status": "running",
+          "updated_at": "2026-06-06T01:16:51.157Z"
+        },
+        "todo:3": {
+          "task_key": "todo:3",
+          "task_label": "3",
+          "task_title": "Rewrite Config.java para MineRust",
+          "session_id": "opencode:ses_1657de6eeffewGm99VmfNndMOH",
+          "agent": "general",
+          "category": "",
+          "updated_at": "2026-06-06T01:19:25.363Z",
+          "started_at": "2026-06-06T01:19:25.363Z",
+          "status": "running"
+        },
+        "todo:5": {
+          "task_key": "todo:5",
+          "task_label": "5",
+          "task_title": "Implementar Tool Cupboard Block + BlockEntity",
+          "session_id": "opencode:ses_1657a7f7fffeFb3iJXiN3cUs5s",
+          "agent": "general",
+          "category": "",
+          "updated_at": "2026-06-06T01:24:37.649Z",
+          "started_at": "2026-06-06T01:24:37.649Z",
+          "status": "running"
+        },
+        "todo:6": {
+          "task_key": "todo:6",
+          "task_label": "6",
+          "task_title": "Implementar sistema de Upkeep y Decay",
+          "session_id": "opencode:ses_16576801bffeDB80FrP5H5tn62",
+          "agent": "general",
+          "category": "",
+          "started_at": "2026-06-06T01:31:24.000Z",
+          "status": "running",
+          "updated_at": "2026-06-06T01:33:16.172Z"
+        },
+        "todo:7": {
+          "task_key": "todo:7",
+          "task_label": "7",
+          "task_title": "Implementar autorización y protección de chunks",
+          "session_id": "opencode:ses_1656e72c2ffeVprA5uBNoJd2zF",
+          "agent": "general",
+          "category": "",
+          "updated_at": "2026-06-06T01:39:02.614Z",
+          "started_at": "2026-06-06T01:39:02.614Z",
+          "status": "running"
+        },
+        "todo:8": {
+          "task_key": "todo:8",
+          "task_label": "8",
+          "task_title": "Implementar bastón de protección y tiers por bloque",
+          "session_id": "opencode:ses_165692d6bffersQ6xVvGI9xrzo",
+          "agent": "general",
+          "category": "",
+          "updated_at": "2026-06-06T01:45:12.026Z",
+          "started_at": "2026-06-06T01:45:12.026Z",
+          "status": "running"
+        },
+        "todo:9": {
+          "task_key": "todo:9",
+          "task_label": "9",
+          "task_title": "Implementar C4 como herramienta de raid",
+          "session_id": "opencode:ses_16563bbceffeyh7NJZfoyPRYpW",
+          "agent": "general",
+          "category": "",
+          "started_at": "2026-06-06T01:48:49.481Z",
+          "status": "running",
+          "updated_at": "2026-06-06T01:52:19.690Z"
+        },
+        "todo:10": {
+          "task_key": "todo:10",
+          "task_label": "10",
+          "task_title": "Implementar taladro de raid",
+          "session_id": "opencode:ses_1655d256cffemHKtcsvwMvvmky",
+          "agent": "general",
+          "category": "",
+          "updated_at": "2026-06-06T01:55:32.099Z",
+          "started_at": "2026-06-06T01:55:32.099Z",
+          "status": "running"
+        },
+        "todo:11": {
+          "task_key": "todo:11",
+          "task_label": "11",
+          "task_title": "Implementar arma Rust básica del mod",
+          "session_id": "opencode:ses_16559d6deffealebQIbXaepZHi",
+          "agent": "general",
+          "category": "",
+          "updated_at": "2026-06-06T02:01:12.102Z",
+          "started_at": "2026-06-06T02:01:12.102Z",
+          "status": "running"
+        },
+        "todo:13": {
+          "task_key": "todo:13",
+          "task_label": "13",
+          "task_title": "Implementar filtro PvP vanilla y anti-bypass de bloques protegidos — verification failure fix for fire bypass",
+          "session_id": "opencode:ses_165523245ffegOe0hqMHp7g4SD",
+          "agent": "general",
+          "category": "",
+          "started_at": "2026-06-06T02:05:11.915Z",
+          "status": "running",
+          "updated_at": "2026-06-06T02:19:18.576Z"
+        },
+        "todo:14": {
+          "task_key": "todo:14",
+          "task_label": "14",
+          "task_title": "Crear assets completos para items/bloques del mod",
+          "session_id": "opencode:ses_165449291ffeKS5wEys89Bx00A",
+          "agent": "Sisyphus-Junior",
+          "category": "visual-engineering",
+          "updated_at": "2026-06-06T02:25:21.117Z",
+          "started_at": "2026-06-06T02:25:21.117Z",
+          "status": "running"
+        },
+        "todo:15": {
+          "task_key": "todo:15",
+          "task_label": "15",
+          "task_title": "Añadir recetas, loot, creative tab y balance inicial",
+          "session_id": "opencode:ses_1653eb163ffeo8Xm63tdRQQw8p",
+          "agent": "general",
+          "category": "",
+          "started_at": "2026-06-06T02:26:33.059Z",
+          "status": "running",
+          "updated_at": "2026-06-06T02:30:36.204Z"
+        },
+        "todo:16": {
+          "task_key": "todo:16",
+          "task_label": "16",
+          "task_title": "QA integral y documentación procedural para agentes",
+          "session_id": "opencode:ses_165022858ffe2ZXI37p7kW0ej2",
+          "agent": "general",
+          "category": "",
+          "started_at": "2026-06-06T03:01:58.714Z",
+          "status": "running",
+          "updated_at": "2026-06-06T03:37:19.493Z"
+        },
+        "final-wave:f1": {
+          "task_key": "final-wave:f1",
+          "task_label": "F1",
+          "task_title": "Plan Compliance Audit — oracle — re-run after F1 blocker fixes",
+          "session_id": "opencode:ses_164f298bcffe81FbSA9vERedIK",
+          "agent": "oracle",
+          "category": "",
+          "started_at": "2026-06-06T03:40:37.569Z",
+          "status": "running",
+          "updated_at": "2026-06-06T03:52:25.390Z"
+        },
+        "final-wave:f4": {
+          "task_key": "final-wave:f4",
+          "task_label": "F4",
+          "task_title": "Scope Fidelity Check — deep",
+          "session_id": "opencode:ses_164f296f1ffeiZFdx1z33m61RM",
+          "agent": "general",
+          "category": "",
+          "updated_at": "2026-06-06T03:52:02.606Z",
+          "started_at": "2026-06-06T03:52:02.606Z",
+          "status": "running"
+        },
+        "final-wave:f2": {
+          "task_key": "final-wave:f2",
+          "task_label": "F2",
+          "task_title": "Code Quality Review — unspecified-high",
+          "session_id": "opencode:ses_164f2977cffenx6uKnk3wJLy5N",
+          "agent": "general",
+          "category": "",
+          "updated_at": "2026-06-06T03:52:59.762Z",
+          "started_at": "2026-06-06T03:52:59.762Z",
+          "status": "running"
+        },
+        "final-wave:f3": {
+          "task_key": "final-wave:f3",
+          "task_label": "F3",
+          "task_title": "Real Manual QA — unspecified-high",
+          "session_id": "opencode:ses_164f296fbffeQJFhjSauLr262g",
+          "agent": "general",
+          "category": "",
+          "updated_at": "2026-06-06T03:56:15.425Z",
+          "started_at": "2026-06-06T03:56:15.425Z",
+          "status": "running"
+        }
+      },
+      "ended_at": "2026-06-06T03:57:08.873Z",
+      "elapsed_ms": 10440737
+    }
+  },
+  "active_plan": "/home/alvaro/MineRust/.omo/plans/minerust-master-plan.md",
+  "started_at": "2026-06-06T01:03:08.136Z",
+  "status": "completed",
+  "updated_at": "2026-06-06T03:57:08.873Z",
+  "session_ids": [
+    "opencode:ses_165a4f5d5ffeQGEQ9I2yKpUIRC",
+    "opencode:ses_1658a7762ffejpI2UyifeMS3av",
+    "opencode:ses_1658a47f4ffe5igrcFIpKwkUNB"
+  ],
+  "session_origins": {
+    "opencode:ses_165a4f5d5ffeQGEQ9I2yKpUIRC": "direct",
+    "opencode:ses_1658a7762ffejpI2UyifeMS3av": "appended",
+    "opencode:ses_1658a47f4ffe5igrcFIpKwkUNB": "appended"
+  },
+  "plan_name": "minerust-master-plan",
+  "task_sessions": {
+    "todo:1": {
+      "task_key": "todo:1",
+      "task_label": "1",
+      "task_title": "Setup DeferredRegister para Blocks, Items, BlockEntities",
+      "session_id": "opencode:ses_16583d2b3ffemE41F5XNgrvJts",
+      "agent": "general",
+      "category": "",
+      "started_at": "2026-06-06T01:09:58.053Z",
+      "status": "running",
+      "updated_at": "2026-06-06T01:12:34.285Z"
+    },
+    "todo:2": {
+      "task_key": "todo:2",
+      "task_label": "2",
+      "task_title": "Setup SimpleChannel Networking",
+      "session_id": "opencode:ses_165816288ffeupN7bWdONCEtIr",
+      "agent": "general",
+      "category": "",
+      "started_at": "2026-06-06T01:15:36.149Z",
+      "status": "running",
+      "updated_at": "2026-06-06T01:16:51.157Z"
+    },
+    "todo:3": {
+      "task_key": "todo:3",
+      "task_label": "3",
+      "task_title": "Rewrite Config.java para MineRust",
+      "session_id": "opencode:ses_1657de6eeffewGm99VmfNndMOH",
+      "agent": "general",
+      "category": "",
+      "updated_at": "2026-06-06T01:19:25.363Z",
+      "started_at": "2026-06-06T01:19:25.363Z",
+      "status": "running"
+    },
+    "todo:5": {
+      "task_key": "todo:5",
+      "task_label": "5",
+      "task_title": "Implementar Tool Cupboard Block + BlockEntity",
+      "session_id": "opencode:ses_1657a7f7fffeFb3iJXiN3cUs5s",
+      "agent": "general",
+      "category": "",
+      "updated_at": "2026-06-06T01:24:37.649Z",
+      "started_at": "2026-06-06T01:24:37.649Z",
+      "status": "running"
+    },
+    "todo:6": {
+      "task_key": "todo:6",
+      "task_label": "6",
+      "task_title": "Implementar sistema de Upkeep y Decay",
+      "session_id": "opencode:ses_16576801bffeDB80FrP5H5tn62",
+      "agent": "general",
+      "category": "",
+      "started_at": "2026-06-06T01:31:24.000Z",
+      "status": "running",
+      "updated_at": "2026-06-06T01:33:16.172Z"
+    },
+    "todo:7": {
+      "task_key": "todo:7",
+      "task_label": "7",
+      "task_title": "Implementar autorización y protección de chunks",
+      "session_id": "opencode:ses_1656e72c2ffeVprA5uBNoJd2zF",
+      "agent": "general",
+      "category": "",
+      "updated_at": "2026-06-06T01:39:02.614Z",
+      "started_at": "2026-06-06T01:39:02.614Z",
+      "status": "running"
+    },
+    "todo:8": {
+      "task_key": "todo:8",
+      "task_label": "8",
+      "task_title": "Implementar bastón de protección y tiers por bloque",
+      "session_id": "opencode:ses_165692d6bffersQ6xVvGI9xrzo",
+      "agent": "general",
+      "category": "",
+      "updated_at": "2026-06-06T01:45:12.026Z",
+      "started_at": "2026-06-06T01:45:12.026Z",
+      "status": "running"
+    },
+    "todo:9": {
+      "task_key": "todo:9",
+      "task_label": "9",
+      "task_title": "Implementar C4 como herramienta de raid",
+      "session_id": "opencode:ses_16563bbceffeyh7NJZfoyPRYpW",
+      "agent": "general",
+      "category": "",
+      "started_at": "2026-06-06T01:48:49.481Z",
+      "status": "running",
+      "updated_at": "2026-06-06T01:52:19.690Z"
+    },
+    "todo:10": {
+      "task_key": "todo:10",
+      "task_label": "10",
+      "task_title": "Implementar taladro de raid",
+      "session_id": "opencode:ses_1655d256cffemHKtcsvwMvvmky",
+      "agent": "general",
+      "category": "",
+      "updated_at": "2026-06-06T01:55:32.099Z",
+      "started_at": "2026-06-06T01:55:32.099Z",
+      "status": "running"
+    },
+    "todo:11": {
+      "task_key": "todo:11",
+      "task_label": "11",
+      "task_title": "Implementar arma Rust básica del mod",
+      "session_id": "opencode:ses_16559d6deffealebQIbXaepZHi",
+      "agent": "general",
+      "category": "",
+      "updated_at": "2026-06-06T02:01:12.102Z",
+      "started_at": "2026-06-06T02:01:12.102Z",
+      "status": "running"
+    },
+    "todo:13": {
+      "task_key": "todo:13",
+      "task_label": "13",
+      "task_title": "Implementar filtro PvP vanilla y anti-bypass de bloques protegidos — verification failure fix for fire bypass",
+      "session_id": "opencode:ses_165523245ffegOe0hqMHp7g4SD",
+      "agent": "general",
+      "category": "",
+      "started_at": "2026-06-06T02:05:11.915Z",
+      "status": "running",
+      "updated_at": "2026-06-06T02:19:18.576Z"
+    },
+    "todo:14": {
+      "task_key": "todo:14",
+      "task_label": "14",
+      "task_title": "Crear assets completos para items/bloques del mod",
+      "session_id": "opencode:ses_165449291ffeKS5wEys89Bx00A",
+      "agent": "Sisyphus-Junior",
+      "category": "visual-engineering",
+      "updated_at": "2026-06-06T02:25:21.117Z",
+      "started_at": "2026-06-06T02:25:21.117Z",
+      "status": "running"
+    },
+    "todo:15": {
+      "task_key": "todo:15",
+      "task_label": "15",
+      "task_title": "Añadir recetas, loot, creative tab y balance inicial",
+      "session_id": "opencode:ses_1653eb163ffeo8Xm63tdRQQw8p",
+      "agent": "general",
+      "category": "",
+      "started_at": "2026-06-06T02:26:33.059Z",
+      "status": "running",
+      "updated_at": "2026-06-06T02:30:36.204Z"
+    },
+    "todo:16": {
+      "task_key": "todo:16",
+      "task_label": "16",
+      "task_title": "QA integral y documentación procedural para agentes",
+      "session_id": "opencode:ses_165022858ffe2ZXI37p7kW0ej2",
+      "agent": "general",
+      "category": "",
+      "started_at": "2026-06-06T03:01:58.714Z",
+      "status": "running",
+      "updated_at": "2026-06-06T03:37:19.493Z"
+    },
+    "final-wave:f1": {
+      "task_key": "final-wave:f1",
+      "task_label": "F1",
+      "task_title": "Plan Compliance Audit — oracle — re-run after F1 blocker fixes",
+      "session_id": "opencode:ses_164f298bcffe81FbSA9vERedIK",
+      "agent": "oracle",
+      "category": "",
+      "started_at": "2026-06-06T03:40:37.569Z",
+      "status": "running",
+      "updated_at": "2026-06-06T03:52:25.390Z"
+    },
+    "final-wave:f4": {
+      "task_key": "final-wave:f4",
+      "task_label": "F4",
+      "task_title": "Scope Fidelity Check — deep",
+      "session_id": "opencode:ses_164f296f1ffeiZFdx1z33m61RM",
+      "agent": "general",
+      "category": "",
+      "updated_at": "2026-06-06T03:52:02.606Z",
+      "started_at": "2026-06-06T03:52:02.606Z",
+      "status": "running"
+    },
+    "final-wave:f2": {
+      "task_key": "final-wave:f2",
+      "task_label": "F2",
+      "task_title": "Code Quality Review — unspecified-high",
+      "session_id": "opencode:ses_164f2977cffenx6uKnk3wJLy5N",
+      "agent": "general",
+      "category": "",
+      "updated_at": "2026-06-06T03:52:59.762Z",
+      "started_at": "2026-06-06T03:52:59.762Z",
+      "status": "running"
+    },
+    "final-wave:f3": {
+      "task_key": "final-wave:f3",
+      "task_label": "F3",
+      "task_title": "Real Manual QA — unspecified-high",
+      "session_id": "opencode:ses_164f296fbffeQJFhjSauLr262g",
+      "agent": "general",
+      "category": "",
+      "updated_at": "2026-06-06T03:56:15.425Z",
+      "started_at": "2026-06-06T03:56:15.425Z",
+      "status": "running"
+    }
+  },
+  "agent": "atlas",
+  "ended_at": "2026-06-06T03:57:08.873Z",
+  "elapsed_ms": 10440737
+}

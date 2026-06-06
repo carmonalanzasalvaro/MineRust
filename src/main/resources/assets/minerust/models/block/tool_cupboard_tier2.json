@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "minerust:block/tool_cupboard_tier2"
+  }
+}

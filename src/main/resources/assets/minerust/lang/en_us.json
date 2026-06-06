@@ -1,0 +1,11 @@
+{
+  "block.minerust.tool_cupboard_tier1": "Tool Cupboard (Tier 1)",
+  "block.minerust.tool_cupboard_tier2": "Tool Cupboard (Tier 2)",
+  "block.minerust.sleeping_bag": "Sleeping Bag",
+  "block.minerust.c4_charge": "C4 Charge",
+  "item.minerust.protection_staff": "Protection Staff",
+  "item.minerust.claim_debug_stick": "Claim Debug Stick",
+  "item.minerust.raid_drill": "Raid Drill",
+  "item.minerust.scrap_pistol": "Scrap Pistol",
+  "itemGroup.minerust": "MineRust"
+}

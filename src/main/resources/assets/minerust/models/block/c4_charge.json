@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "minerust:block/c4_charge_north",
+    "north": "minerust:block/c4_charge_north",
+    "south": "minerust:block/c4_charge_south",
+    "east": "minerust:block/c4_charge_east",
+    "west": "minerust:block/c4_charge_west",
+    "up": "minerust:block/c4_charge_up",
+    "down": "minerust:block/c4_charge_down"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#north"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#south"},
+        "east": {"uv": [0, 0, 16, 16], "texture": "#east"},
+        "west": {"uv": [0, 0, 16, 16], "texture": "#west"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#up"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#down"}
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DID",
+    "ITI",
+    "DID"
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "T": {
+      "item": "minerust:tool_cupboard_tier1"
+    }
+  },
+  "result": {
+    "item": "minerust:tool_cupboard_tier2"
+  }
+}
