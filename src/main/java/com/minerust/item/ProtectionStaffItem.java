@@ -61,6 +61,14 @@ public class ProtectionStaffItem extends Item {
         ClaimSavedData data = ClaimSavedData.get(level);
         ClaimSavedData.ToolCupboardData claim = data.getClaimAtChunk(dimension, chunkX, chunkZ);
 
+        if (level.getBlockState(pos).getDestroySpeed(level, pos) < 0) {
+            player.displayClientMessage(
+                Component.literal("This block cannot be protected."),
+                true
+            );
+            return InteractionResult.FAIL;
+        }
+
         if (claim == null) {
             player.displayClientMessage(
                 Component.literal("No Tool Cupboard claim covers this block."),

@@ -22,6 +22,9 @@
 - **TC auto-removal** — `ToolCupboardBlock.setPlacedBy` registraba claim antes del evento `BlockEvent.EntityPlaceEvent`, causando que `wouldOverlap` detectara el propio claim y cancelara la colocación. Fix: `wouldOverlap` ahora acepta `ignorePos` para excluir el claim recién colocado.
 - **TC propiedades de bloque** — Cambiado de `Properties.copy(Blocks.CHEST)` (que causaba comportamientos extraños) a `Properties.copy(Blocks.OAK_PLANKS).strength(2.0f, 3.0f)`.
 - **C4 modelo roto** — Reemplazado JSON de 27.000 líneas/400 elementos con modelo de caja simple de 2 elementos.
+- **Bedrock protection exploit** — El bastón permitía proteger bedrock (y otros bloques indestructibles), haciéndolos rompibles con C4. Fix: `ProtectionStaffItem.applyProtection` ahora rechaza bloques con `destroySpeed < 0`.
+- **C4 directional placement** — C4 ahora se coloca en cualquier cara del bloque como un botón, usando `DirectionProperty.FACING`. El modelo rota según la orientación.
+- **C4 transparency** — Ajustadas propiedades del bloque para evitar que se vea a través del mundo cuando está contra otros bloques.
 
 ---
 

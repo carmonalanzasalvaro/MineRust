@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
-      "model": "minerust:block/c4_charge"
-    }
+    "facing=north": { "model": "minerust:block/c4_charge", "y": 180 },
+    "facing=south": { "model": "minerust:block/c4_charge" },
+    "facing=east": { "model": "minerust:block/c4_charge", "y": 270 },
+    "facing=west": { "model": "minerust:block/c4_charge", "y": 90 },
+    "facing=up": { "model": "minerust:block/c4_charge", "x": 270 },
+    "facing=down": { "model": "minerust:block/c4_charge", "x": 90 }
   }
 }
